@@ -48,7 +48,7 @@ export default function BlogIndexPage() {
       initial="hidden"
       animate="visible"
     >
-      <div className="mt-4">
+      <div className="mt-0">
         <div className="mb-3 flex items-center justify-between">
           <div>
             <h2 className="mb-3 text-lg font-medium">Writings</h2>
