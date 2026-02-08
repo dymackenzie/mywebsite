@@ -19,6 +19,27 @@ export function Header() {
           Software Engineer and Camera Lover
         </TextEffect>
       </div>
+
+      <nav className="flex gap-4 items-center">
+        <Link
+          href="/gallery"
+          className="text-zinc-700 hover:text-black dark:text-zinc-400 dark:hover:text-white"
+        >
+          Gallery
+        </Link>
+        <Link
+          href="/projects"
+          className="text-zinc-700 hover:text-black dark:text-zinc-400 dark:hover:text-white"
+        >
+          Projects
+        </Link>
+        <Link
+          href="/blog"
+          className="text-zinc-700 hover:text-black dark:text-zinc-400 dark:hover:text-white"
+        >
+          Writings
+        </Link>
+      </nav>
     </header>
   )
 }

@@ -20,6 +20,8 @@ type BlogPost = {
   description: string
   link: string
   uid: string
+  date?: string
+  tags?: string[]
 }
 
 type SocialLink = {
@@ -29,48 +31,40 @@ type SocialLink = {
 
 export const PROJECTS: Project[] = [
   {
-    name: 'Motion Primitives Pro',
+    name: 'Terminecraft',
     description:
-      'Advanced components and templates to craft beautiful websites.',
-    link: 'https://pro.motion-primitives.com/',
+      'basic minecraft in terminal through raytracing',
+    link: 'https://github.com/dymackenzie/terminecraft',
     video:
-      'https://res.cloudinary.com/read-cv/video/upload/t_v_b/v1/1/profileItems/W2azTw5BVbMXfj7F53G92hMVIn32/newProfileItem/d898be8a-7037-4c71-af0c-8997239b050d.mp4?_a=DATAdtAAZAA0',
+      '',
     id: 'project1',
   },
   {
-    name: 'Motion Primitives',
-    description: 'UI kit to make beautiful, animated interfaces.',
-    link: 'https://motion-primitives.com/',
+    name: 'Typo',
+    description: 'a 2D typing dungeon game made in Godot',
+    link: 'https://github.com/dymackenzie/Typo',
     video:
-      'https://res.cloudinary.com/read-cv/video/upload/t_v_b/v1/1/profileItems/W2azTw5BVbMXfj7F53G92hMVIn32/XSfIvT7BUWbPRXhrbLed/ee6871c9-8400-49d2-8be9-e32675eabf7e.mp4?_a=DATAdtAAZAA0',
+      '',
     id: 'project2',
   },
 ]
 
 export const WORK_EXPERIENCE: WorkExperience[] = [
   {
-    company: 'Reglazed Studio',
-    title: 'CEO',
+    company: 'Lucid Vision Labs',
+    title: 'Junior Software Developer',
     start: '2024',
     end: 'Present',
-    link: 'https://ibelick.com',
+    link: 'https://thinklucid.com/',
     id: 'work1',
   },
   {
-    company: 'Freelance',
-    title: 'Design Engineer',
-    start: '2022',
-    end: '2024',
-    link: 'https://ibelick.com',
-    id: 'work2',
-  },
-  {
-    company: 'Freelance',
-    title: 'Front-end Developer',
-    start: '2017',
+    company: 'nwPlus',
+    title: 'Media Coordinator',
+    start: '2024',
     end: 'Present',
-    link: 'https://ibelick.com',
-    id: 'work3',
+    link: 'https://nwplus.io',
+    id: 'work2',
   },
 ]
 
@@ -80,6 +74,8 @@ export const BLOG_POSTS: BlogPost[] = [
     description: 'How AI is changing the way we design',
     link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
     uid: 'blog-1',
+    date: '2025-06-12',
+    tags: ['design', 'ai', 'process'],
   },
   {
     title: 'Why I left my job to start my own company',
@@ -87,6 +83,8 @@ export const BLOG_POSTS: BlogPost[] = [
       'A deep dive into my decision to leave my job and start my own company',
     link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
     uid: 'blog-2',
+    date: '2024-11-02',
+    tags: ['career', 'founder', 'personal'],
   },
   {
     title: 'What I learned from my first year of freelancing',
@@ -94,12 +92,16 @@ export const BLOG_POSTS: BlogPost[] = [
       'A look back at my first year of freelancing and what I learned',
     link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
     uid: 'blog-3',
+    date: '2024-07-18',
+    tags: ['freelancing', 'process', 'advice'],
   },
   {
     title: 'How to Export Metadata from MDX for Next.js SEO',
     description: 'A guide on exporting metadata from MDX files to leverage Next.js SEO features.',
     link: '/blog/example-mdx-metadata',
     uid: 'blog-4',
+    date: '2024-02-05',
+    tags: ['mdx', 'nextjs', 'seo'],
   },
 ]
 

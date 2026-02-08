@@ -62,7 +62,7 @@ export function AnimatedBackground({
       child,
       {
         key: index,
-        className: cn('relative inline-flex', child.props.className),
+        className: cn('relative block w-full', child.props.className),
         'data-checked': activeId === id ? 'true' : 'false',
         ...interactionProps,
       },
@@ -71,7 +71,7 @@ export function AnimatedBackground({
           {activeId === id && (
             <motion.div
               layoutId={`background-${uniqueId}`}
-              className={cn('absolute inset-0', className)}
+              className={cn('absolute inset-0 z-0', className)}
               transition={transition}
               initial={{ opacity: defaultValue ? 1 : 0 }}
               animate={{
@@ -83,7 +83,7 @@ export function AnimatedBackground({
             />
           )}
         </AnimatePresence>
-        <div className="z-10">{child.props.children}</div>
+        <div className="relative z-10">{child.props.children}</div>
       </>,
     )
   })
