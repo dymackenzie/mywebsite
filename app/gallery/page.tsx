@@ -1,24 +1,37 @@
- 'use client'
+import fs from 'fs'
+import path from 'path'
+import GalleryView from '@/components/gallery/GalleryView'
+import { imageSize } from 'image-size'
 
-import { motion } from 'motion/react'
-import { VARIANTS_CONTAINER, VARIANTS_ITEM } from '@/components/ui/animations'
+function getPublicImages() {
+  const publicImagesDir = path.join(process.cwd(), 'public', 'images')
+  let files: string[] = []
+
+  try {
+    files = fs.readdirSync(publicImagesDir)
+  } catch (e) {
+    return []
+  }
+
+  const allowed = ['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif']
+  const images = files
+    .filter((f) => allowed.includes(path.extname(f).toLowerCase()))
+    .map((f) => {
+      const abs = path.join(publicImagesDir, f)
+        let size: { width: number; height: number } | null = null
+        try {
+          size = imageSize(abs) as { width: number; height: number }
+        } catch (e) {
+          // fall back to null, client will measure onLoad
+        }
+      return { src: `/images/${f}`, width: size?.width, height: size?.height }
+    })
+
+  return images
+}
 
 export default function GalleryPage() {
-  const placeholders = Array.from({ length: 6 }).map((_, i) => ({ id: i + 1 }))
+  const images = getPublicImages()
 
-  return (
-    <motion.main className="prose max-w-none" variants={VARIANTS_CONTAINER} initial="hidden" animate="visible">
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
-        {placeholders.map((p) => (
-          <motion.div
-            key={p.id}
-            variants={VARIANTS_ITEM}
-            className="h-40 rounded-lg bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 flex items-center justify-center text-sm text-zinc-600"
-          >
-            Image {p.id}
-          </motion.div>
-        ))}
-      </div>
-    </motion.main>
-  )
+  return <GalleryView images={images} />
 }

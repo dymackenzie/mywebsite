@@ -7,7 +7,7 @@ import useClickOutside from '@/hooks/useClickOutside'
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>
 
   useClickOutside(menuRef, () => {
     setIsMenuOpen(false)
