@@ -54,9 +54,9 @@ export function TextLoop({
   }
 
   return (
-    <div className={cn('relative inline-block whitespace-nowrap', className)}>
+    <span className={cn('relative inline-block whitespace-nowrap', className)}>
       <AnimatePresence mode={mode} initial={false}>
-        <motion.div
+        <motion.span
           key={currentIndex}
           initial="initial"
           animate="animate"
@@ -65,8 +65,8 @@ export function TextLoop({
           variants={variants || motionVariants}
         >
           {items[currentIndex]}
-        </motion.div>
+        </motion.span>
       </AnimatePresence>
-    </div>
+    </span>
   )
 }

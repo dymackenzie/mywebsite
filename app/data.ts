@@ -36,7 +36,7 @@ export const PROJECTS: Project[] = [
       'basic minecraft in terminal through raytracing',
     link: 'https://github.com/dymackenzie/terminecraft',
     video:
-      '',
+      'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770630478/terminecraft_iluaxf.mp4',
     id: 'project1',
   },
   {
@@ -44,16 +44,32 @@ export const PROJECTS: Project[] = [
     description: 'a 2D typing dungeon game made in Godot',
     link: 'https://github.com/dymackenzie/Typo',
     video:
-      '',
+      'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770630479/typo_wit7vk.mp4',
     id: 'project2',
+  },
+  {
+    name: 'Immigr8',
+    description: 'an Android social app that allows immigrants to network',
+    link: 'https://github.com/dymackenzie/Immigr8',
+    video:
+      'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770631712/immigr8_product_dppzmb.mp4',
+    id: 'project5',
   },
   {
     name: 'Python Chess Engine',
     description: 'an alphabeta chess engine using Python\'s Tkinter',
     link: 'https://github.com/dymackenzie/chess-engine',
     video:
-      '',
+      'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770630479/chess_qxgajq.mp4',
     id: 'project3',
+  },
+  {
+    name: 'Physics Engine',
+    description: 'a simple 2D physics engine from scratch in Java',
+    link: 'https://github.com/dymackenzie/physics-engine',
+    video:
+      'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770631928/physics_po08qk.mp4',
+    id: 'project4',
   },
 ]
 

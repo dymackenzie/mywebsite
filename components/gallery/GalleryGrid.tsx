@@ -32,7 +32,7 @@ export default function GalleryGrid({ images }: { images: ImageItem[] | string[]
           const paddingBottom = `${ratio * 100}%`
 
           return (
-            <div key={`${src}-${i}`} className="not-prose break-inside-avoid mb-4 rounded-lg shadow-sm overflow-hidden bg-zinc-50 dark:bg-zinc-900">
+            <div key={`${src}-${i}`} className="break-inside-avoid mb-4 rounded-lg shadow-sm overflow-hidden bg-zinc-50 dark:bg-zinc-900">
               <div style={{ position: 'relative', width: '100%', paddingBottom }}>
                 <Image
                   src={src}
