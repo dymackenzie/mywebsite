@@ -91,6 +91,13 @@ export function Header() {
                 Projects
               </Link>
               <Link
+                href="/videos"
+                className="block rounded px-2 py-1 text-zinc-700 hover:text-black dark:text-zinc-400 dark:hover:text-white"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Videos
+              </Link>
+              <Link
                 href="/blog"
                 className="block rounded px-2 py-1 text-zinc-700 hover:text-black dark:text-zinc-400 dark:hover:text-white"
                 onClick={() => setIsMenuOpen(false)}
@@ -114,6 +121,12 @@ export function Header() {
             className="text-zinc-700 hover:text-black dark:text-zinc-400 dark:hover:text-white"
           >
             Projects
+          </Link>
+          <Link
+            href="/videos"
+            className="text-zinc-700 hover:text-black dark:text-zinc-400 dark:hover:text-white"
+          >
+            Videos
           </Link>
           <Link
             href="/blog"

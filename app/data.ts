@@ -29,6 +29,15 @@ type SocialLink = {
   link: string
 }
 
+type Video = {
+  title: string
+  description?: string
+  youtube: string
+  thumbnail?: string
+  date?: string
+  id: string
+}
+
 export const PROJECTS: Project[] = [
   {
     name: 'Terminecraft',
@@ -73,6 +82,58 @@ export const PROJECTS: Project[] = [
   },
 ]
 
+export const VIDEOS: Video[] = [
+  {
+    title: 'nwHacks 2026',
+    description: 'cinematic recap of nwHacks 2026',
+    youtube: 'https://youtu.be/ae8lVaB7HTQ',
+    date: '2026-01-18',
+    id: 'video7',
+  },
+  {
+    title: 'what does it mean to live a full life?',
+    description: '2025 year recap',
+    youtube: 'https://youtu.be/27IG3CToopw',
+    date: '2026-01-08',
+    id: 'video6',
+  },
+  {
+    title: 'HackCamp 2025',
+    description: 'cinematic recap of HackCamp 2025',
+    youtube: 'https://youtu.be/x0zixcHCqwE',
+    date: '2025-11-16',
+    id: 'video5',
+  },
+  {
+    title: 'in another life, my mother...',
+    description: 'happy birthday mom',
+    youtube: 'https://youtu.be/mDu2dlZc2hM',
+    date: '2025-06-27',
+    id: 'video4',
+  },
+  {
+    title: 'marathons, the power of friendship, and the importance of doing hard things',
+    description: 'my BMO marathon experience',
+    youtube: 'https://youtu.be/mqJv5trdNSM',
+    date: '2025-05-08',
+    id: 'video3',
+  },
+  {
+    title: 'there is a season for everything',
+    description: 'my first video with my new Sony and reflections on life',
+    youtube: 'https://youtu.be/Sa-1iTL6eyA',
+    date: '2025-04-09',
+    id: 'video2',
+  },
+  {
+    title: 'hey God, thank you',
+    description: '2024 year recap',
+    youtube: 'https://youtu.be/6JOTPnZS-cM',
+    date: '2025-01-07',
+    id: 'video1',
+  },
+]
+
 export const WORK_EXPERIENCE: WorkExperience[] = [
   {
     company: 'Lucid Vision Labs',
@@ -94,12 +155,12 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
 
 export const BLOG_POSTS: BlogPost[] = [
   {
-    title: 'Exploring the Intersection of Design, AI, and Design Engineering',
-    description: 'How AI is changing the way we design',
-    link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
+    title: 'What Does It Mean To Live A Full Life?',
+    description: 'the script from my 2025 year recap video',
+    link: '/blog/what-does-it-mean-to-live-a-full-life',
     uid: 'blog-1',
-    date: '2025-06-12',
-    tags: ['design', 'ai', 'process'],
+    date: '2026-02-09',
+    tags: ['life'],
   },
 ]
 
@@ -115,6 +176,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
   {
     label: 'Instagram',
     link: 'https://www.instagram.com/dymackenzie',
+  },
+  {
+    label: 'YouTube',
+    link: 'https://www.youtube.com/@dy_mackenzie',
   },
 ]
 
