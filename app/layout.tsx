@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { Header } from './header'
 import { Footer } from './footer'
+import Fwog from '@/components/ui/fwog'
 import { ThemeProvider } from 'next-themes'
 
 export const viewport: Viewport = {
@@ -49,7 +50,8 @@ export default function RootLayout({
           storageKey="theme"
           defaultTheme="system"
         >
-          <div className="flex min-h-screen w-full flex-col font-[family-name:var(--font-inter-tight)]">
+          <Fwog />
+          <div className="relative z-10 flex min-h-screen w-full flex-col font-[family-name:var(--font-inter-tight)]">
             <div className="relative mx-auto w-full max-w-screen-md flex-1 px-4 pt-20">
               <Header />
               {children}
