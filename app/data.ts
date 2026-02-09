@@ -85,32 +85,6 @@ export const BLOG_POSTS: BlogPost[] = [
     date: '2025-06-12',
     tags: ['design', 'ai', 'process'],
   },
-  {
-    title: 'Why I left my job to start my own company',
-    description:
-      'A deep dive into my decision to leave my job and start my own company',
-    link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
-    uid: 'blog-2',
-    date: '2024-11-02',
-    tags: ['career', 'founder', 'personal'],
-  },
-  {
-    title: 'What I learned from my first year of freelancing',
-    description:
-      'A look back at my first year of freelancing and what I learned',
-    link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
-    uid: 'blog-3',
-    date: '2024-07-18',
-    tags: ['freelancing', 'process', 'advice'],
-  },
-  {
-    title: 'How to Export Metadata from MDX for Next.js SEO',
-    description: 'A guide on exporting metadata from MDX files to leverage Next.js SEO features.',
-    link: '/blog/example-mdx-metadata',
-    uid: 'blog-4',
-    date: '2024-02-05',
-    tags: ['mdx', 'nextjs', 'seo'],
-  },
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [

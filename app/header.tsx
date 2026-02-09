@@ -1,5 +1,4 @@
 'use client'
-import { TextEffect } from '@/components/ui/text-effect'
 import { TextLoop } from '@/components/ui/text-loop'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'motion/react'
@@ -23,9 +22,11 @@ export function Header() {
         <p className="text-zinc-600 dark:text-zinc-500">
           <TextLoop interval={2} className="inline-block">
             <span>Software Engineer</span>
-            <span>Camera Lover</span>
+            <span>Photographer</span>
             <span>Rock Climber</span>
             <span>Hiking Enthusiast</span>
+            <span>Marathoner</span>
+            <span>Videographer</span>
           </TextLoop>
         </p>
       </div>

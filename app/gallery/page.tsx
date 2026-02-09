@@ -27,6 +27,13 @@ function getPublicImages() {
       return { src: `/images/${f}`, width: size?.width, height: size?.height }
     })
 
+  for (let i = images.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    const tmp = images[i]
+    images[i] = images[j]
+    images[j] = tmp
+  }
+
   return images
 }
 
