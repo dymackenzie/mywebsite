@@ -11,16 +11,16 @@ const THEMES_OPTIONS = [
     id: 'light',
     icon: <SunIcon className="h-4 w-4" />,
   },
-  {
-    label: 'Dark',
-    id: 'dark',
-    icon: <MoonIcon className="h-4 w-4" />,
-  },
-  {
-    label: 'System',
-    id: 'system',
-    icon: <MonitorIcon className="h-4 w-4" />,
-  },
+  // {
+  //   label: 'Dark',
+  //   id: 'dark',
+  //   icon: <MoonIcon className="h-4 w-4" />,
+  // },
+  // {
+  //   label: 'System',
+  //   id: 'system',
+  //   icon: <MonitorIcon className="h-4 w-4" />,
+  // },
 ]
 
 function ThemeSwitch() {
@@ -72,8 +72,8 @@ export function Footer() {
       <div className="flex items-center justify-between">
         <a href="https://github.com/ibelick/nim" target="_blank">
           <TextLoop className="text-xs text-zinc-500">
-            <span>© 2024 Nim.</span>
-            <span>Built with Motion-Primitives.</span>
+            <span>© 2026 Mackenzie.</span>
+            <span>Only what's done for Christ will last.</span>
           </TextLoop>
         </a>
         <div className="text-xs text-zinc-400">

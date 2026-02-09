@@ -47,6 +47,14 @@ export const PROJECTS: Project[] = [
       '',
     id: 'project2',
   },
+  {
+    name: 'Python Chess Engine',
+    description: 'an alphabeta chess engine using Python\'s Tkinter',
+    link: 'https://github.com/dymackenzie/chess-engine',
+    video:
+      '',
+    id: 'project3',
+  },
 ]
 
 export const WORK_EXPERIENCE: WorkExperience[] = [

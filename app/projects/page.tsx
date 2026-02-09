@@ -18,7 +18,7 @@ export default function ProjectsPage() {
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-        <h3 className="mb-5 text-lg font-medium">Selected Projects</h3>
+        <h3 className="mb-5 text-lg font-medium text-black dark:text-white">Selected Projects</h3>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {PROJECTS.map((project) => (
             <motion.div key={project.id} className="space-y-2" variants={VARIANTS_SECTION}>
@@ -33,9 +33,9 @@ export default function ProjectsPage() {
                   rel="noreferrer"
                 >
                   {project.name}
-                  <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 dark:bg-zinc-50 transition-all duration-200 group-hover:max-w-full"></span>
+                  <span className="absolute bottom-0 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 dark:bg-zinc-50 transition-all duration-200 group-hover:max-w-full"></span>
                 </a>
-                <p className="text-base text-zinc-600 dark:text-zinc-400">{project.description}</p>
+                <p className="mt-0 text-base text-zinc-600 dark:text-zinc-400">{project.description}</p>
               </div>
             </motion.div>
           ))}
