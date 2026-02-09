@@ -73,10 +73,10 @@ export default function Fwog() {
       const delay = rand(1500, 6000)
       directionTimer = window.setTimeout(() => {
         // small chance to pause
-        if (Math.random() < 0.18) {
+        if (Math.random() < 0.50) {
           setPaused(true)
           setSrc(idleSrc)
-          const pauseFor = rand(600, 1800)
+          const pauseFor = rand(1800, 3000)
           changeTimer = window.setTimeout(() => {
             setPaused(false)
             setSrc(runningSrc)
