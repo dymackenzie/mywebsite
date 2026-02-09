@@ -1,5 +1,6 @@
 'use client'
 import { TextEffect } from '@/components/ui/text-effect'
+import { TextLoop } from '@/components/ui/text-loop'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'motion/react'
 import { useRef, useState } from 'react'
@@ -19,15 +20,14 @@ export function Header() {
         <Link href="/" className="font-medium text-black dark:text-white">
           Mackenzie Dy
         </Link>
-        <TextEffect
-          as="p"
-          preset="fade"
-          per="char"
-          className="text-zinc-600 dark:text-zinc-500"
-          delay={0.5}
-        >
-          Software Engineer and Camera Lover
-        </TextEffect>
+        <p className="text-zinc-600 dark:text-zinc-500">
+          <TextLoop interval={2} className="inline-block">
+            <span>Software Engineer</span>
+            <span>Camera Lover</span>
+            <span>Rock Climber</span>
+            <span>Hiking Enthusiast</span>
+          </TextLoop>
+        </p>
       </div>
 
       <div className="relative" ref={menuRef}>

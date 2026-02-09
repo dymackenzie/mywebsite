@@ -65,7 +65,7 @@ export default function BlogIndexPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by title or tag"
-              className="w-full md:w-56 mt-2 rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm placeholder:text-zinc-400 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100"
+              className="w-full md:w-56 mt-7 rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm placeholder:text-zinc-400 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100"
               aria-label="Search posts"
             />
           </motion.div>
