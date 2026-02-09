@@ -146,7 +146,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
   {
     company: 'nwPlus',
     title: 'Media Coordinator',
-    start: '2024',
+    start: '2025',
     end: 'Present',
     link: 'https://nwplus.io',
     id: 'work2',
