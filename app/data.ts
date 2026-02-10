@@ -72,14 +72,14 @@ export const PROJECTS: Project[] = [
       'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770630479/chess_qxgajq.mp4',
     id: 'project3',
   },
-  {
-    name: 'Physics Engine',
-    description: 'a simple 2D physics engine from scratch in Java',
-    link: 'https://github.com/dymackenzie/physics-engine',
-    video:
-      'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770631928/physics_po08qk.mp4',
-    id: 'project4',
-  },
+  // {
+  //   name: 'Physics Engine',
+  //   description: 'a simple 2D physics engine from scratch in Java',
+  //   link: 'https://github.com/dymackenzie/physics-engine',
+  //   video:
+  //     'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770631928/physics_po08qk.mp4',
+  //   id: 'project4',
+  // },
 ]
 
 export const VIDEOS: Video[] = [
@@ -150,6 +150,22 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
     end: 'Present',
     link: 'https://nwplus.io',
     id: 'work2',
+  },
+  {
+    company: 'Creation Point Media',
+    title: 'Video Editor',
+    start: '2024',
+    end: '2024',
+    link: 'https://www.movie-mint.com/',
+    id: 'work3',
+  },
+  {
+    company: 'Creation Point Media',
+    title: 'Digital Media & Technology Intern',
+    start: '2021',
+    end: '2021',
+    link: 'https://www.movie-mint.com/',
+    id: 'work4',
   },
 ]
 
