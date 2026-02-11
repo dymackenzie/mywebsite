@@ -31,10 +31,10 @@ export const metadata: Metadata = {
     siteName: 'Mackenzie Dy',
     images: [
       {
-        url: 'https://mackenziedy.com/profile.jpg',
-        width: 1066,
-        height: 1600,
-        alt: 'Mackenzie Dy',
+        url: 'https://mackenziedy.com/fwog_scaled_1200x1200.png',
+        width: 1200,
+        height: 1200,
+        alt: 'fwog',
       },
     ],
     locale: 'en_US',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Mackenzie Dy',
     description: 'The headspace of Mackenzie Dy.',
-    images: ['https://mackenziedy.com/og.png'],
+    images: ['https://mackenziedy.com/fwog_scaled_1200x1200.png'],
   },
   icons: {
     icon: '/favicon.ico',
@@ -75,9 +75,22 @@ export default function RootLayout({
     "name": "Mackenzie Dy",
     "url": "https://mackenziedy.com",
     "description": "The headspace of Mackenzie Dy. Come look inside my brain and see what I am up to.",
-    "image": "https://mackenziedy.com/profile.jpg",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://mackenziedy.com/fwog_scaled_1200x1200.png",
+      "width": 1200,
+      "height": 1200
+    },
+    "jobTitle": "Junior Software Developer; Media Coordinator",
+    "worksFor": [
+      { "@type": "Organization", "name": "Lucid Vision Labs" },
+      { "@type": "Organization", "name": "nwPlus" }
+    ],
     "sameAs": [
-      "https://github.com/dymackenzie"
+      "https://github.com/dymackenzie",
+      "https://www.linkedin.com/in/mackenziedy",
+      "https://www.instagram.com/dymackenzie",
+      "https://www.youtube.com/@dymackenzie"
     ]
   }`;
 
@@ -89,7 +102,9 @@ export default function RootLayout({
         <meta name="twitter:site" content="@mackenziedy" />
         <meta property="og:site_name" content="Mackenzie Dy" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://mackenziedy.com/og.png" />
+        <meta property="og:image" content="https://mackenziedy.com/fwog_scaled_1200x1200.png" />
+        <meta name="twitter:image" content="https://mackenziedy.com/fwog_scaled_1200x1200.png" />
+        <link rel="image_src" href="https://mackenziedy.com/fwog_scaled_1200x1200.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: PERSON_JSON }}
