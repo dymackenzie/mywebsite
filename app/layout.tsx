@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Libre_Franklin } from 'next/font/google'
 import './globals.css'
 import { Header } from './header'
 import { Footer } from './footer'
@@ -31,9 +31,9 @@ export const metadata: Metadata = {
     siteName: 'Mackenzie Dy',
     images: [
       {
-        url: 'https://mackenziedy.com/images/professional_headshot_mackenzie_color.jpg',
-        width: 1200,
-        height: 630,
+        url: 'https://mackenziedy.com/profile.jpg',
+        width: 1066,
+        height: 1600,
         alt: 'Mackenzie Dy',
       },
     ],
@@ -44,18 +44,24 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Mackenzie Dy',
     description: 'The headspace of Mackenzie Dy.',
-    images: ['https://mackenziedy.com/images/og.png'],
+    images: ['https://mackenziedy.com/og.png'],
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/fwog_scaled_48x48.png',
   },
 };
 
-const geist = Geist({
-  variable: '--font-geist',
+const libre = Libre_Franklin({
+  variable: '--font-libre',
   subsets: ['latin'],
+  weight: ['300'],
 })
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const libreMono = Libre_Franklin({
+  variable: '--font-libre-mono',
   subsets: ['latin'],
+  weight: ['700'],
 })
 
 export default function RootLayout({
@@ -91,7 +97,7 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${geist.variable} ${geistMono.variable} bg-zinc-50 tracking-tight antialiased dark:bg-zinc-950`}
+        className={`${libre.variable} ${libreMono.variable} bg-zinc-50 tracking-tight antialiased dark:bg-zinc-950`}
       >
         <ThemeProvider
           enableSystem={false}
@@ -101,7 +107,7 @@ export default function RootLayout({
           forcedTheme="light"
         >
           <Fwog />
-          <div className="relative z-10 flex min-h-screen w-full flex-col font-[family-name:var(--font-inter-tight)]">
+          <div className="relative z-10 flex min-h-screen w-full flex-col font-[family-name:var(--font-libre)]">
             <div className="relative mx-auto w-full max-w-screen-md flex-1 px-4 pt-20">
               <Header />
               {children}

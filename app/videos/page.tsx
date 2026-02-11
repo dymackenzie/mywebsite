@@ -14,7 +14,7 @@ export default function VideosPage() {
         <div className="space-y-4">
           <AnimatedBackground
             enableHover
-            className="rounded-2xl bg-gradient-to-r from-indigo-50/50 via-white/30 to-white/10 dark:from-indigo-900/20 dark:to-zinc-900/20"
+            className="rounded-2xl bg-gradient-to-r from-zinc-100 via-white/70 to-white/5 dark:from-indigo-900/20 dark:to-zinc-900/20"
             transition={{ type: 'spring', bounce: 0.16, duration: 0.36 }}
           >
             {VIDEOS.map((video) => (
