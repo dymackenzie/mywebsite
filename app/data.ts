@@ -177,14 +177,14 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
 ]
 
 export const BLOG_POSTS: BlogPost[] = [
-  {
-    title: 'What Does It Mean To Live A Full Life?',
-    description: 'the script from my 2025 year recap video',
-    link: '/blog/what-does-it-mean-to-live-a-full-life',
-    uid: 'blog-1',
-    date: '2026-02-09',
-    tags: ['life'],
-  },
+  // {
+  //   title: 'What Does It Mean To Live A Full Life?',
+  //   description: 'the script from my 2025 year recap video',
+  //   link: '/blog/what-does-it-mean-to-live-a-full-life',
+  //   uid: 'blog-1',
+  //   date: '2026-02-09',
+  //   tags: ['life'],
+  // },
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [

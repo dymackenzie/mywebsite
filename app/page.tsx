@@ -63,12 +63,17 @@ export default function Personal() {
       >
         <div className="flex-1">
           <p className="text-zinc-600 dark:text-zinc-400">
-            Welcome to the mindspace of Mackenzie Dy. Feel free to look around.
+            Hi. <br /> 
+            Yes, I did draw that. <br />
+            Less importantly, I am a student at the University of British Columbia studying Computer Science. <br />
+            I am currently working at Lucid Vision Labs as a Junior Software Developer. <br />
+            In my free time, I currently enjoy bouldering, backpacking, photography, videography, restaurant hopping, having late 2am conversations, asking good questions, and sitting in nature with God. <br />
+            Welcome to my mindspace! Feel free to look around.
           </p>
         </div>
       </motion.section>
 
-      <motion.section
+      {/* <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
@@ -165,13 +170,13 @@ export default function Personal() {
             </a>
           ))}
         </div>
-      </motion.section>
+      </motion.section> */}
 
       <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-        <h3 className="mb-5 text-lg font-medium">Connect</h3>
+        {/* <h3 className="mb-5 text-lg font-medium text-zinc-600 dark:text-zinc-400">Connect</h3> */}
         <p className="mb-5 text-zinc-600 dark:text-zinc-400">
           Feel free to contact me at{' '}
           <a className="underline dark:text-zinc-300" href={`mailto:${EMAIL}`}>

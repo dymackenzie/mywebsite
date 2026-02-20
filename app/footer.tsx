@@ -76,7 +76,7 @@ export function Footer() {
           </TextLoop> */}
         </a>
         <div className="text-xs text-zinc-400">
-          <ThemeSwitch />
+          {/* <ThemeSwitch /> */}
         </div>
       </div>
     </footer>
