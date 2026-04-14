@@ -1,19 +1,10 @@
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'motion/react'
-import { Spotlight } from '@/components/ui/spotlight'
 import { Magnetic } from '@/components/ui/magnetic'
-import Link from 'next/link'
-import { AnimatedBackground } from '@/components/ui/animated-background'
-import ProjectVideo from '@/components/ui/project-video'
 import { VARIANTS_CONTAINER, VARIANTS_SECTION, TRANSITION_SECTION } from '@/components/ui/animations'
-import {
-  PROJECTS,
-  WORK_EXPERIENCE,
-  BLOG_POSTS,
-  EMAIL,
-  SOCIAL_LINKS,
-} from './data'
+import { EMAIL, SOCIAL_LINKS } from './data'
 
 function MagneticSocialLink({
   children,
@@ -52,7 +43,7 @@ function MagneticSocialLink({
 export default function Personal() {
   return (
     <motion.main
-      className="space-y-24"
+      className="space-y-20"
       variants={VARIANTS_CONTAINER}
       initial="hidden"
       animate="visible"
@@ -61,15 +52,41 @@ export default function Personal() {
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-        <div className="flex-1">
-          <p className="text-zinc-600 dark:text-zinc-400">
-            Hi. <br /> 
-            Yes, I did draw that. <br />
-            Less importantly, I am a student at the University of British Columbia studying Computer Science. <br />
-            I am currently working at Lucid Vision Labs as a Junior Software Developer. <br />
-            In my free time, I currently enjoy bouldering, backpacking, photography, videography, restaurant hopping, having late 2am conversations, asking good questions, and sitting in nature with God. <br />
-            Welcome to my mindspace! Feel free to look around.
-          </p>
+        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <h1 className="max-w-xl text-4xl font-semibold tracking-tight text-zinc-950 sm:text-5xl dark:text-zinc-50">
+                Hi. <br />
+                Yes, I did draw that.
+              </h1>
+              <p className="max-w-xl text-base leading-7 text-zinc-600 dark:text-zinc-400">
+                Less importantly, I am a student at the University of British Columbia studying Computer Science.
+                I am currently working at Lucid Vision Labs as a Junior Software Developer. <br />
+                In my free time, I currently enjoy bouldering, backpacking, photography, videography, restaurant hopping, having late 2am conversations, asking good questions, and sitting in nature with God. <br />
+                Welcome to my mindspace! Feel free to look around.
+              </p>
+            </div>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-md lg:max-w-none lg:justify-self-end">
+            <motion.figure
+              whileHover={{ y: -6, rotate: -1 }}
+              transition={{ type: 'spring', stiffness: 180, damping: 18 }}
+              className="group relative overflow-hidden rounded-[2rem] border border-zinc-200 bg-white/70 p-3 shadow-[0_30px_100px_-45px_rgba(0,0,0,0.45)] backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/70"
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.95),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(0,0,0,0.08),transparent_38%)] opacity-80" />
+              <div className="relative overflow-hidden rounded-[1.5rem]">
+                <Image
+                  src="/profile.jpg"
+                  alt="Mackenzie Dy standing in the mountains under a cloudy sky"
+                  width={1280}
+                  height={1600}
+                  priority
+                  className="aspect-[4/5] w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+              </div>
+            </motion.figure>
+          </div>
         </div>
       </motion.section>
 
@@ -176,9 +193,8 @@ export default function Personal() {
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-        {/* <h3 className="mb-5 text-lg font-medium text-zinc-600 dark:text-zinc-400">Connect</h3> */}
-        <p className="mb-5 text-zinc-600 dark:text-zinc-400">
-          Feel free to contact me at{' '}
+        <p className="mb-5 max-w-xl text-zinc-600 dark:text-zinc-400">
+          If you want to say hello or talk about something interesting, reach me at{' '}
           <a className="underline dark:text-zinc-300" href={`mailto:${EMAIL}`}>
             {EMAIL}
           </a>

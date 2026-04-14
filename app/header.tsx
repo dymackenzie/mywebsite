@@ -19,15 +19,8 @@ export function Header() {
         <Link href="/" className="font-medium text-black dark:text-white">
           Mackenzie Dy
         </Link>
-        <p className="text-zinc-600 dark:text-zinc-500">
-          <TextLoop interval={2} className="inline-block">
-            <span>Software Engineer</span>
-            <span>Photographer</span>
-            <span>Rock Climber</span>
-            <span>Hiking Enthusiast</span>
-            <span>Marathoner</span>
-            <span>Videographer</span>
-          </TextLoop>
+        <p className="text-zinc-500 dark:text-zinc-400">
+          a small window into my mindspace
         </p>
       </div>
 
