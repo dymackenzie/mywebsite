@@ -84,6 +84,13 @@ export const PROJECTS: Project[] = [
 
 export const VIDEOS: Video[] = [
   {
+    title: 'cmdf 2026',
+    description: 'cinematic recap of cmdf 2026',
+    youtube: 'https://youtu.be/zTsglLJ3bG8',
+    date: '2026-03-08',
+    id: 'video9',
+  },
+  {
     title: 'nwHacks 2026',
     description: 'cinematic recap of nwHacks 2026',
     youtube: 'https://youtu.be/ae8lVaB7HTQ',

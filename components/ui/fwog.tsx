@@ -17,6 +17,36 @@ export default function Fwog() {
   const [idleSrc] = useState('/fwog_scaled_100x.gif')
   const [src, setSrc] = useState(runningSrc)
   const [paused, setPaused] = useState(false)
+  const headerBoundsRef = useRef({ left: 0, top: 0, width: 0 })
+  const laneTopRef = useRef(50)
+
+  useEffect(() => {
+    function updateHeaderBounds() {
+      const header = document.getElementById('site-header')
+      if (!header) return
+
+      const rect = header.getBoundingClientRect()
+      headerBoundsRef.current = {
+        left: rect.left,
+        top: rect.top,
+        width: rect.width,
+      }
+
+      laneTopRef.current = Math.max(0, rect.top + rect.height / 2 - 50)
+
+      if (posRef.current.x === 50 && posRef.current.y === 50) {
+        posRef.current.x = rect.left
+        posRef.current.y = laneTopRef.current
+      }
+    }
+
+    updateHeaderBounds()
+    window.addEventListener('resize', updateHeaderBounds)
+
+    return () => {
+      window.removeEventListener('resize', updateHeaderBounds)
+    }
+  }, [])
 
   useEffect(() => {
     const el = imgRef.current
@@ -31,15 +61,15 @@ export default function Fwog() {
 
       if (!paused) {
         posRef.current.x += dirRef.current.x * speedRef.current * dt
-        posRef.current.y += dirRef.current.y * speedRef.current * dt
+        posRef.current.y = laneTopRef.current
 
-        // bounce off edges
-        const w = window.innerWidth
-        const h = window.innerHeight
-        if (posRef.current.x < 0) posRef.current.x = 0, dirRef.current.x *= -1
-        if (posRef.current.y < 0) posRef.current.y = 0, dirRef.current.y *= -1
-        if (posRef.current.x > w - size) posRef.current.x = w - size, dirRef.current.x *= -1
-        if (posRef.current.y > h - size) posRef.current.y = h - size, dirRef.current.y *= -1
+        // bounce within the header's horizontal span
+        const { left, width } = headerBoundsRef.current
+        const minX = left
+        const maxX = left + Math.max(0, width - size)
+
+        if (posRef.current.x < minX) posRef.current.x = minX, dirRef.current.x *= -1
+        if (posRef.current.x > maxX) posRef.current.x = maxX, dirRef.current.x *= -1
       }
 
       // apply transform (keep upright). flip horizontally to face direction.

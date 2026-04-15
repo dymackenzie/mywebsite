@@ -55,15 +55,14 @@ export default function Personal() {
         <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="space-y-6">
             <div className="space-y-4">
-              <h1 className="max-w-xl text-4xl font-semibold tracking-tight text-zinc-950 sm:text-5xl dark:text-zinc-50">
+              <p className="max-w-xl text-2xl font-semibold tracking-tight text-zinc-950 sm:text-3xl dark:text-zinc-50">
                 Hi. <br />
-                Yes, I did draw that.
-              </h1>
+                I'm Mackenzie.
+              </p>
               <p className="max-w-xl text-base leading-7 text-zinc-600 dark:text-zinc-400">
-                Less importantly, I am a student at the University of British Columbia studying Computer Science.
+                I am a student at the University of British Columbia studying Computer Science.
                 I am currently working at Lucid Vision Labs as a Junior Software Developer. <br />
-                In my free time, I currently enjoy bouldering, backpacking, photography, videography, restaurant hopping, having late 2am conversations, asking good questions, and sitting in nature with God. <br />
-                Welcome to my mindspace! Feel free to look around.
+                In my free time, I currently enjoy bouldering, backpacking, photography, videography, restaurant hopping, having late 2am conversations, asking good questions, and sitting in nature with God.
               </p>
             </div>
           </div>
