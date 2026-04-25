@@ -185,11 +185,11 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
 
 export const BLOG_POSTS: BlogPost[] = [
   // {
-  //   title: 'What Does It Mean To Live A Full Life?',
-  //   description: 'the script from my 2025 year recap video',
-  //   link: '/blog/what-does-it-mean-to-live-a-full-life',
+  //   title: 'Friendships Are Transactional',
+  //   description: 'an exploration into why people stay friends, and the value of it',
+  //   link: '/blog/friendships-are-transactional',
   //   uid: 'blog-1',
-  //   date: '2026-02-09',
+  //   date: '2026-04-21',
   //   tags: ['life'],
   // },
 ]

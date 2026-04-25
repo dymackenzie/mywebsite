@@ -69,13 +69,13 @@ export function Header() {
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.18, ease: 'easeOut' }}
               >
-              <Link
+              {/* <Link
                 href="/videos"
                 className="block rounded px-2 py-1 text-zinc-700 hover:text-black dark:text-zinc-400 dark:hover:text-white"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Videos
-              </Link>
+              </Link> */}
               <Link
                 href="/gallery"
                 className="block rounded px-2 py-1 text-zinc-700 hover:text-black dark:text-zinc-400 dark:hover:text-white"
@@ -103,12 +103,12 @@ export function Header() {
         </AnimatePresence>
 
         <nav className="hidden items-center gap-4 md:flex">
-          <Link
+          {/* <Link
             href="/videos"
             className="text-zinc-700 hover:text-black dark:text-zinc-400 dark:hover:text-white"
           >
             Videos
-          </Link>
+          </Link> */}
           <Link
             href="/gallery"
             className="text-zinc-700 hover:text-black dark:text-zinc-400 dark:hover:text-white"

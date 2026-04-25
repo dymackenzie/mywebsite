@@ -88,7 +88,7 @@ export default function BlogIndexPage() {
                   key={post.uid}
                   href={post.link}
                   data-id={post.uid}
-                  className="rounded-xl px-0 py-2 flex items-center justify-between text-zinc-800 dark:text-zinc-100 no-underline"
+                  className="rounded-xl px-0 py-4 flex items-center justify-between text-zinc-800 dark:text-zinc-100 no-underline"
                   variants={VARIANTS_ITEM}
                 >
                   <div className="flex items-start gap-5 w-full">
