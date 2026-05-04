@@ -44,7 +44,7 @@ function MagneticSocialLink({
 export default function Personal() {
   return (
     <>
-      <section className="relative -mx-4 mb-16 hidden max-h-[34rem] overflow-hidden rounded-2xl border border-zinc-200/70 bg-zinc-100 shadow-[0_35px_90px_-50px_rgba(0,0,0,0.45)] sm:block sm:h-[62svh] sm:rounded-[2.25rem] lg:h-[66svh] dark:border-zinc-800/70 dark:bg-zinc-900">
+      <section className="relative -mx-4 mb-16 hidden max-h-[34rem] overflow-hidden rounded-2xl sm:block sm:h-[62svh] sm:rounded-[2.25rem] lg:h-[66svh] ">
         <BackgroundVideo
           src="https://res.cloudinary.com/dy5qhfyed/video/upload/v1776219450/lower_assorted_clips_fi5eej.mp4"
           className="absolute inset-0"
@@ -68,13 +68,12 @@ export default function Personal() {
             <div className="space-y-6">
               <div className="space-y-4">
                 <p className="max-w-xl text-2xl font-semibold tracking-tight text-zinc-950 sm:text-3xl dark:text-zinc-50">
-                  Hi. <br />
-                  I'm Mackenzie.
+                  Hi I'm Mackenzie!
                 </p>
                 <p className="max-w-xl text-base leading-7 text-zinc-600 dark:text-zinc-400">
-                  I am a student at the University of British Columbia studying Computer Science.
-                  I am currently working at Lucid Vision Labs as a Junior Software Developer. <br />
-                  In my free time, I currently enjoy bouldering, backpacking, photography, videography, restaurant hopping, having late 2am conversations, asking good questions, and sitting in nature with God.
+                  Two things I can do that make a difference: tell stories and solve problems. Stories, when told right, can change a person's mind and problems, when fixed, can change a person's direction. 
+                  <br />
+                  I believe everything is better in moderation, so while not working, I love to hike, run, photograph, boulder, and live life to its fullest.
                 </p>
               </div>
             </div>
@@ -83,9 +82,8 @@ export default function Personal() {
               <motion.figure
                 whileHover={{ y: -6, rotate: -1 }}
                 transition={{ type: 'spring', stiffness: 180, damping: 18 }}
-                className="group relative overflow-hidden rounded-[2rem] border border-zinc-200 bg-white/70 p-3 shadow-[0_30px_100px_-45px_rgba(0,0,0,0.45)] backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/70"
+                className="group relative overflow-hidden rounded-[2rem]"
               >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.95),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(0,0,0,0.08),transparent_38%)] opacity-80" />
                 <div className="relative overflow-hidden rounded-[1.5rem]">
                   <Image
                     src="/profile.jpg"

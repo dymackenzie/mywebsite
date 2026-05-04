@@ -73,7 +73,7 @@ export default function BlogIndexPage() {
 
         <AnimatedBackground
           enableHover
-          className="w-full rounded-lg bg-zinc-100 dark:bg-zinc-900/80"
+          className="w-full rounded-2xl bg-zinc-100 dark:bg-zinc-900/80"
           transition={{ type: 'spring', bounce: 0, duration: 0.2 }}
         >
           {filtered.map((post) => {
@@ -88,7 +88,7 @@ export default function BlogIndexPage() {
                   key={post.uid}
                   href={post.link}
                   data-id={post.uid}
-                  className="rounded-xl px-0 py-4 flex items-center justify-between text-zinc-800 dark:text-zinc-100 no-underline"
+                  className="rounded-xl px-3 py-3 flex items-center justify-between text-zinc-800 dark:text-zinc-100 no-underline"
                   variants={VARIANTS_ITEM}
                 >
                   <div className="flex items-start gap-5 w-full">

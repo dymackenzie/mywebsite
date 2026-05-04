@@ -184,14 +184,14 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
 ]
 
 export const BLOG_POSTS: BlogPost[] = [
-  // {
-  //   title: 'Friendships Are Transactional',
-  //   description: 'an exploration into why people stay friends, and the value of it',
-  //   link: '/blog/friendships-are-transactional',
-  //   uid: 'blog-1',
-  //   date: '2026-04-21',
-  //   tags: ['life'],
-  // },
+  {
+    title: 'Friendships Are Transactional',
+    description: 'an exploration into why people stay friends, and the value of it',
+    link: '/blog/friendships-are-transactional',
+    uid: 'blog-1',
+    date: '2026-05-04',
+    tags: ['life'],
+  },
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [
