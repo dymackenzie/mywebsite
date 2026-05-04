@@ -1,9 +1,10 @@
-'use client'
+"use client"
 import { TextLoop } from '@/components/ui/text-loop'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'motion/react'
 import { useRef, useState } from 'react'
 import useClickOutside from '@/hooks/useClickOutside'
+import Fwog from '@/components/ui/fwog'
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -14,8 +15,8 @@ export function Header() {
   })
 
   return (
-    <header id="site-header" className="mb-8 flex items-center justify-between">
-      <div>
+    <header id="site-header" className="mb-8 flex items-center justify-between relative overflow-hidden">
+      <div className="relative z-10">
         <Link href="/" className="font-medium text-black dark:text-white">
           Mackenzie Dy
         </Link>
@@ -24,7 +25,7 @@ export function Header() {
         </p>
       </div>
 
-      <div className="relative" ref={menuRef}>
+      <div className="relative z-10" ref={menuRef}>
         <button
           type="button"
           className="inline-flex items-center justify-center rounded-md p-2 text-zinc-700 hover:text-black dark:text-zinc-400 dark:hover:text-white md:hidden"
@@ -129,6 +130,7 @@ export function Header() {
           </Link>
         </nav>
       </div>
+      <Fwog />
     </header>
   )
 }
