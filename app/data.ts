@@ -72,6 +72,14 @@ export const PROJECTS: Project[] = [
       'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770630479/chess_qxgajq.mp4',
     id: 'project3',
   },
+  {
+    name: 'Poopyhead',
+    description: 'a multiplayer card game',
+    link: 'https://poopyhead-mcq8.onrender.com',
+    video:
+      'https://res.cloudinary.com/dy5qhfyed/video/upload/v1779998419/poopyhead_tfnb9j.mp4',
+    id: 'project6',
+  },
   // {
   //   name: 'Physics Engine',
   //   description: 'a simple 2D physics engine from scratch in Java',
