@@ -1,9 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Libre_Franklin } from 'next/font/google'
 import './globals.css'
-import { Header } from './header'
-import { Footer } from './footer'
-import { ThemeProvider } from 'next-themes'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -14,121 +10,26 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://mackenziedy.com/'),
   alternates: {
-    canonical: '/'
+    canonical: '/',
   },
   title: {
     default: 'Mackenzie Dy',
-    template: '%s | Mackenzie Dy'
+    template: '%s | Mackenzie Dy',
   },
-  description: 'The headspace of Mackenzie Dy. Come look inside my brain and see what I am up to.',
+  description:
+    'The headspace of Mackenzie Dy. Come look inside my brain and see what I am up to.',
   keywords: ['Mackenzie Dy', 'portfolio', 'blog', 'projects'],
   authors: [{ name: 'Mackenzie Dy' }],
-  openGraph: {
-    title: 'Mackenzie Dy',
-    description: 'The headspace of Mackenzie Dy. Come look inside my brain and see what I am up to.',
-    url: 'https://mackenziedy.com',
-    siteName: 'Mackenzie Dy',
-    images: [
-      {
-        url: 'https://mackenziedy.com/fwog_scaled_1200x1200.png',
-        width: 1200,
-        height: 1200,
-        alt: 'fwog',
-      },
-    ],
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Mackenzie Dy',
-    description: 'The headspace of Mackenzie Dy.',
-    images: ['https://mackenziedy.com/fwog_scaled_1200x1200.png'],
-  },
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/fwog_scaled_48x48.png',
-  },
-};
-
-const libre = Libre_Franklin({
-  variable: '--font-libre',
-  subsets: ['latin'],
-  weight: ['300'],
-})
-
-const libreMono = Libre_Franklin({
-  variable: '--font-libre-mono',
-  subsets: ['latin'],
-  weight: ['700'],
-})
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const PERSON_JSON = `{
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Mackenzie Dy",
-    "url": "https://mackenziedy.com",
-    "description": "The headspace of Mackenzie Dy. Come look inside my brain and see what I am up to.",
-    "image": {
-      "@type": "ImageObject",
-      "url": "https://mackenziedy.com/fwog_scaled_1200x1200.png",
-      "width": 1200,
-      "height": 1200
-    },
-    "jobTitle": "Junior Software Developer; Media Coordinator",
-    "worksFor": [
-      { "@type": "Organization", "name": "Lucid Vision Labs" },
-      { "@type": "Organization", "name": "nwPlus" }
-    ],
-    "sameAs": [
-      "https://github.com/dymackenzie",
-      "https://www.linkedin.com/in/mackenziedy",
-      "https://www.instagram.com/dymackenzie",
-      "https://www.youtube.com/@dymackenzie"
-    ]
-  }`;
-
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <meta name="keywords" content="Mackenzie Dy, portfolio, blog, projects" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@mackenziedy" />
-        <meta property="og:site_name" content="Mackenzie Dy" />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://mackenziedy.com/fwog_scaled_1200x1200.png" />
-        <meta name="twitter:image" content="https://mackenziedy.com/fwog_scaled_1200x1200.png" />
-        <link rel="image_src" href="https://mackenziedy.com/fwog_scaled_1200x1200.png" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: PERSON_JSON }}
-        />
-      </head>
-      <body
-        suppressHydrationWarning
-        className={`${libre.variable} ${libreMono.variable} bg-zinc-50 tracking-tight antialiased dark:bg-zinc-950`}
-      >
-        <ThemeProvider
-          enableSystem={false}
-          attribute="class"
-          storageKey="theme"
-          defaultTheme="light"
-          forcedTheme="light"
-        >
-          <div className="relative z-10 flex min-h-screen w-full flex-col font-[family-name:var(--font-libre)]">
-            <div className="relative mx-auto w-full max-w-screen-md flex-1 px-4 pt-20">
-              <Header />
-              {children}
-              <Footer />
-            </div>
-          </div>
-        </ThemeProvider>
-      </body>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   )
 }
