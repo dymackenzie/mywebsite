@@ -2,20 +2,86 @@
 @plugin '@tailwindcss/typography';
 @custom-variant dark (&:is(.dark *));
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
+@theme {
+  /* Earthy palette */
+  --color-parchment: #f7f4ee;
+  --color-ink: #2b2a26;
+  --color-ink-muted: #6b6860;
+  --color-ink-faint: #a09e97;
 
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
+  --color-moss-50: #f1f4ef;
+  --color-moss-100: #dde6d8;
+  --color-moss-200: #bbcdb3;
+  --color-moss-300: #93ae87;
+  --color-moss-400: #6f9261;
+  --color-moss-500: #527845;
+  --color-moss-600: #3e5e34;
+  --color-moss-700: #304928;
+  --color-moss-800: #23351d;
+  --color-moss-900: #172213;
+
+  --color-clay-50: #faf3ee;
+  --color-clay-100: #f2e2d2;
+  --color-clay-200: #e5c4a5;
+  --color-clay-300: #d4a276;
+  --color-clay-400: #c1814e;
+  --color-clay-500: #a8622e;
+  --color-clay-600: #8a4b20;
+  --color-clay-700: #6d3818;
+  --color-clay-800: #502710;
+  --color-clay-900: #37190a;
+
+  --color-stone-50: #f6f5f3;
+  --color-stone-100: #eceae5;
+  --color-stone-200: #d6d2c9;
+  --color-stone-300: #bbb5a8;
+  --color-stone-400: #9e9789;
+  --color-stone-500: #84796a;
+  --color-stone-600: #6b6154;
+  --color-stone-700: #554d42;
+  --color-stone-800: #3d3830;
+  --color-stone-900: #28231c;
+
+  /* Typography */
+  --font-serif: var(--font-fraunces), Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
 @layer base {
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-stone-200, currentColor);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-parchment);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
