@@ -238,7 +238,7 @@ export const BLOG_POSTS: BlogPost[] = [
     uid: 'blog-1',
     date: '2026-05-04',
     tags: ['life'],
-    cover: '/images/KEN06214.jpeg',
+    cover: '/blog/monet_impression_sunrise.jpg',
     pinned: true,
     featuredMain: true,
   },
@@ -254,20 +254,15 @@ export const BLOG_POSTS: BlogPost[] = [
   // },
 ]
 
-// ── Home cinematic clips ──────────────────────────────────────────────
-// The landing page tells "a day in nature" through the POSITION of these
-// clips as you scroll: dawn → ascent → midday → afternoon → dusk.
 const CLIP_PLACEHOLDER =
   'https://res.cloudinary.com/dy5qhfyed/video/upload/v1776219450/lower_assorted_clips_fi5eej.mp4'
 
-// Big full-bleed hero — first light.
 export const HERO_CLIP: CinematicClip = {
   id: 'hero-dawn',
   src: CLIP_PLACEHOLDER, // TODO: sunrise / dawn establishing clip
   caption: 'first light',
 }
 
-// Story feed, in scroll order. Positions are arranged in app/page.tsx.
 export const STORY_CLIPS: CinematicClip[] = [
   { id: 'peak', src: CLIP_PLACEHOLDER, caption: 'above the clouds' },     // TODO: mountain peak
   { id: 'trail', src: CLIP_PLACEHOLDER, caption: 'into the trees' },      // TODO: forest trail
