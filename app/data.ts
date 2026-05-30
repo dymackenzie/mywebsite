@@ -46,7 +46,7 @@ type Video = {
   thumbnail?: string
   date?: string
   id: string
-  preview?: string        // TODO: upload Cloudinary preview — muted loop MP4 URL
+  preview?: string
   poster?: string         // still frame fallback for preview
 }
 
@@ -109,7 +109,6 @@ export const VIDEOS: Video[] = [
     youtube: 'https://youtu.be/zTsglLJ3bG8',
     date: '2026-03-08',
     id: 'video9',
-    // TODO: upload Cloudinary preview
     preview: '',
     poster: '',
   },
@@ -119,7 +118,6 @@ export const VIDEOS: Video[] = [
     youtube: 'https://youtu.be/ae8lVaB7HTQ',
     date: '2026-01-18',
     id: 'video8',
-    // TODO: upload Cloudinary preview
     preview: '',
     poster: '',
   },
@@ -129,7 +127,6 @@ export const VIDEOS: Video[] = [
     youtube: 'https://youtu.be/27IG3CToopw',
     date: '2026-01-08',
     id: 'video7',
-    // TODO: upload Cloudinary preview
     preview: '',
     poster: '',
   },
@@ -139,19 +136,16 @@ export const VIDEOS: Video[] = [
     youtube: 'https://youtu.be/x0zixcHCqwE',
     date: '2025-11-16',
     id: 'video6',
-    // TODO: upload Cloudinary preview
     preview: '',
     poster: '',
   },
   {
     title: 'nwPlus Summer Retreat Master Chef',
     description: 'drama within the nwPlus summer retreat master chef competition',
-    // Instagram reel — no YouTube id; handled as external link
     youtube:
       'https://www.instagram.com/reel/DQIyMmDkVMn/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA%3D%3D',
     date: '2025-10-22',
     id: 'video5',
-    // TODO: upload Cloudinary preview
     preview: '',
     poster: '',
   },
@@ -161,7 +155,6 @@ export const VIDEOS: Video[] = [
     youtube: 'https://youtu.be/mDu2dlZc2hM',
     date: '2025-06-27',
     id: 'video4',
-    // TODO: upload Cloudinary preview
     preview: '',
     poster: '',
   },
@@ -171,7 +164,6 @@ export const VIDEOS: Video[] = [
     youtube: 'https://youtu.be/mqJv5trdNSM',
     date: '2025-05-08',
     id: 'video3',
-    // TODO: upload Cloudinary preview
     preview: '',
     poster: '',
   },
@@ -181,7 +173,6 @@ export const VIDEOS: Video[] = [
     youtube: 'https://youtu.be/Sa-1iTL6eyA',
     date: '2025-04-09',
     id: 'video2',
-    // TODO: upload Cloudinary preview
     preview: '',
     poster: '',
   },
@@ -191,7 +182,6 @@ export const VIDEOS: Video[] = [
     youtube: 'https://youtu.be/6JOTPnZS-cM',
     date: '2025-01-07',
     id: 'video1',
-    // TODO: upload Cloudinary preview
     preview: '',
     poster: '',
   },
@@ -267,11 +257,6 @@ export const BLOG_POSTS: BlogPost[] = [
 // ── Home cinematic clips ──────────────────────────────────────────────
 // The landing page tells "a day in nature" through the POSITION of these
 // clips as you scroll: dawn → ascent → midday → afternoon → dusk.
-//
-// TODO: every clip below currently reuses the one compilation clip as a
-// placeholder. Upload each individual cinematic clip to Cloudinary and
-// replace its `src` (and optionally add a `poster` still frame). The
-// `id`s map to fixed positions in app/page.tsx — keep them.
 const CLIP_PLACEHOLDER =
   'https://res.cloudinary.com/dy5qhfyed/video/upload/v1776219450/lower_assorted_clips_fi5eej.mp4'
 

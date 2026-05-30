@@ -6,7 +6,7 @@ export function Footer() {
       <div className="mx-auto max-w-screen-xl px-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-ink-muted">
-            &copy; {new Date().getFullYear()} Mackenzie Dy
+            {/* &copy; {new Date().getFullYear()} Mackenzie Dy */}
           </p>
 
           <div className="flex items-center gap-6">
