@@ -35,7 +35,7 @@ export default function GalleryPage() {
   const images = getImages()
 
   return (
-    <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-screen-md px-6 py-16">
       <div className="mb-12">
         <h1 className="font-serif text-4xl font-semibold text-ink">Photographs</h1>
         <p className="mt-2 text-ink-muted">

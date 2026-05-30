@@ -45,7 +45,7 @@ export default function Home() {
   return (
     <>
       {/* ───────────── HERO — contained clip, profile beneath ───────────── */}
-      <section className="mx-auto max-w-screen-md px-6 pt-12 md:pt-16">
+      <section className="mx-auto max-w-screen-md px-6 pt-8 md:pt-10">
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -66,7 +66,7 @@ export default function Home() {
       </section>
 
       {/* ───────── STORY FEED — words woven through a day in nature ───────── */}
-      <div className="mx-auto max-w-screen-md space-y-20 px-6 py-20 md:py-24">
+      <div className="mx-auto max-w-screen-md space-y-12 px-6 py-12 md:space-y-14 md:py-16">
         {/* words — what I do, with profile alongside */}
         <motion.section
           initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
@@ -167,7 +167,7 @@ export default function Home() {
       </section>
 
       {/* ───────── CLOSING — a quiet hello ───────── */}
-      <section className="mx-auto max-w-screen-md px-6 pb-24 pt-16">
+      <section className="mx-auto max-w-screen-md px-6 pb-16 pt-10">
         <Words>
           If you want to say hello or talk about something interesting, reach me
           at{' '}
