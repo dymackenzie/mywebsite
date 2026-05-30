@@ -32,6 +32,13 @@ type SocialLink = {
   link: string
 }
 
+type CinematicClip = {
+  id: string
+  src: string       // Cloudinary muted-loop MP4
+  poster?: string   // still-frame fallback
+  caption?: string  // short poetic line tied to its place in the story
+}
+
 type Video = {
   title: string
   description?: string
@@ -85,14 +92,14 @@ export const PROJECTS: Project[] = [
       'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770630479/chess_qxgajq.mp4',
     id: 'project3',
   },
-  // {
-  //   name: 'Physics Engine',
-  //   description: 'a simple 2D physics engine from scratch in Java',
-  //   link: 'https://github.com/dymackenzie/physics-engine',
-  //   video:
-  //     'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770631928/physics_po08qk.mp4',
-  //   id: 'project4',
-  // },
+  {
+    name: 'Physics Engine',
+    description: 'a simple 2D physics engine from scratch in Java',
+    link: 'https://github.com/dymackenzie/physics-engine',
+    video:
+      'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770631928/physics_po08qk.mp4',
+    id: 'project4',
+  },
 ]
 
 export const VIDEOS: Video[] = [
@@ -255,6 +262,34 @@ export const BLOG_POSTS: BlogPost[] = [
   //   cover: '/images/KEN08704.jpeg',
   //   pinned: true,
   // },
+]
+
+// ── Home cinematic clips ──────────────────────────────────────────────
+// The landing page tells "a day in nature" through the POSITION of these
+// clips as you scroll: dawn → ascent → midday → afternoon → dusk.
+//
+// TODO: every clip below currently reuses the one compilation clip as a
+// placeholder. Upload each individual cinematic clip to Cloudinary and
+// replace its `src` (and optionally add a `poster` still frame). The
+// `id`s map to fixed positions in app/page.tsx — keep them.
+const CLIP_PLACEHOLDER =
+  'https://res.cloudinary.com/dy5qhfyed/video/upload/v1776219450/lower_assorted_clips_fi5eej.mp4'
+
+// Big full-bleed hero — first light.
+export const HERO_CLIP: CinematicClip = {
+  id: 'hero-dawn',
+  src: CLIP_PLACEHOLDER, // TODO: sunrise / dawn establishing clip
+  caption: 'first light',
+}
+
+// Story feed, in scroll order. Positions are arranged in app/page.tsx.
+export const STORY_CLIPS: CinematicClip[] = [
+  { id: 'peak', src: CLIP_PLACEHOLDER, caption: 'above the clouds' },     // TODO: mountain peak
+  { id: 'trail', src: CLIP_PLACEHOLDER, caption: 'into the trees' },      // TODO: forest trail
+  { id: 'river', src: CLIP_PLACEHOLDER, caption: 'where the water runs' },// TODO: river / water
+  { id: 'run', src: CLIP_PLACEHOLDER, caption: 'keep moving' },           // TODO: running / motion
+  { id: 'climb', src: CLIP_PLACEHOLDER, caption: 'a little higher' },     // TODO: bouldering / climb
+  { id: 'sunset', src: CLIP_PLACEHOLDER, caption: 'golden hour' },        // TODO: sunset / dusk
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [

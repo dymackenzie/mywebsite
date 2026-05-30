@@ -2,10 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Fwog } from '@/components/ui/fwog'
 
 const NAV_LINKS = [
-  { href: '/', label: 'Home' },
   { href: '/gallery', label: 'Photographs' },
   { href: '/videos', label: 'Videos' },
   { href: '/projects', label: 'Projects' },
@@ -19,11 +17,22 @@ export function Header() {
     <header className="relative border-b border-stone-200/60">
       <div className="mx-auto max-w-screen-xl px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="group flex flex-col leading-tight">
-            <span className="font-serif text-lg font-semibold text-ink tracking-tight">
-              Mackenzie Dy
+          <Link href="/" className="group flex items-center gap-3 leading-tight">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/fwog_scaled_100x.gif"
+              alt=""
+              aria-hidden="true"
+              width={40}
+              height={40}
+              className="h-10 opacity-50 w-auto shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5"
+            />
+            <span className="flex flex-col">
+              <span className="font-serif text-lg font-semibold text-ink tracking-tight">
+                Mackenzie Dy
+              </span>
+              <span className="text-xs text-ink-muted">a small window into my mindspace</span>
             </span>
-            <span className="text-xs text-ink-muted">a small window into my mindspace</span>
           </Link>
 
           <nav>
@@ -49,9 +58,6 @@ export function Header() {
           </nav>
         </div>
       </div>
-
-      {/* Fwog walks along the bottom of the header */}
-      <Fwog />
     </header>
   )
 }

@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'motion/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export type GalleryImage = {
   src: string
@@ -64,13 +64,29 @@ function Lightbox({ images, index, onClose, onPrev, onNext }: LightboxProps) {
   )
 }
 
+function shuffle(arr: GalleryImage[]): GalleryImage[] {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
 export function GalleryGrid({ images }: { images: GalleryImage[] }) {
   const shouldReduceMotion = useReducedMotion()
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
 
+  // Start with the server order (avoids hydration mismatch), then shuffle on
+  // the client so the gallery is freshly randomized each visit.
+  const [ordered, setOrdered] = useState<GalleryImage[]>(images)
+  useEffect(() => {
+    setOrdered(shuffle(images))
+  }, [images])
+
   // Split into 3 columns for masonry
   const columns: GalleryImage[][] = [[], [], []]
-  images.forEach((img, i) => columns[i % 3].push(img))
+  ordered.forEach((img, i) => columns[i % 3].push(img))
 
   return (
     <>
@@ -78,7 +94,7 @@ export function GalleryGrid({ images }: { images: GalleryImage[] }) {
         {columns.map((col, ci) => (
           <div key={ci} className="flex flex-col gap-2 sm:gap-3">
             {col.map((img) => {
-              const globalIdx = images.indexOf(img)
+              const globalIdx = ordered.indexOf(img)
               const aspectRatio = img.width / img.height
               return (
                 <motion.button
@@ -113,11 +129,11 @@ export function GalleryGrid({ images }: { images: GalleryImage[] }) {
 
       {lightboxIdx !== null && (
         <Lightbox
-          images={images}
+          images={ordered}
           index={lightboxIdx}
           onClose={() => setLightboxIdx(null)}
-          onPrev={() => setLightboxIdx((i) => (i! - 1 + images.length) % images.length)}
-          onNext={() => setLightboxIdx((i) => (i! + 1) % images.length)}
+          onPrev={() => setLightboxIdx((i) => (i! - 1 + ordered.length) % ordered.length)}
+          onNext={() => setLightboxIdx((i) => (i! + 1) % ordered.length)}
         />
       )}
     </>

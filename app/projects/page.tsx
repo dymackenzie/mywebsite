@@ -58,7 +58,7 @@ export default function ProjectsPage() {
       </motion.section>
 
       {/* Work Experience */}
-      <motion.section
+      {/* <motion.section
         variants={VARIANTS_CONTAINER}
         initial="hidden"
         whileInView="visible"
@@ -97,7 +97,7 @@ export default function ProjectsPage() {
             </motion.div>
           ))}
         </div>
-      </motion.section>
+      </motion.section> */}
     </div>
   )
 }
