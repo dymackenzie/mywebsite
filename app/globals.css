@@ -58,6 +58,10 @@
 
   html {
     scroll-behavior: smooth;
+    /* Guard against transient horizontal scroll from slide-in animations and
+       wide media. `clip` stops sideways scrolling without creating a scroll
+       container (so smooth scrolling / sticky still work). */
+    overflow-x: clip;
   }
 
   body {

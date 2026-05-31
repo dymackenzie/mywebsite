@@ -93,12 +93,21 @@ export default function Home() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="grid grid-cols-1 items-center gap-8 sm:grid-cols-2 sm:gap-10"
         >
-          <p className="text-base leading-relaxed text-ink-muted">
-            Two things I can do that make a difference: tell stories and solve
-            problems. Stories, when told right, can change a person&apos;s mind,
-            and problems, when fixed, can change a person&apos;s direction.
-          </p>
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl">
+          <div>
+            <h2 className="font-serif text-2xl text-ink md:text-3xl">
+              Hi, I&apos;m Mackenzie
+            </h2>
+            <p className="mt-3 text-base leading-relaxed text-ink-muted">
+              Two things I can do that make a difference: tell stories and solve
+              problems. Stories, when told right, can change a person&apos;s mind,
+              and problems, when fixed, can change a person&apos;s direction.
+            </p>
+          </div>
+          <motion.div
+            whileHover={shouldReduceMotion ? undefined : { scale: 1.04, rotate: -2 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl shadow-md transition-shadow hover:shadow-xl"
+          >
             <Image
               src="/profile.jpg"
               alt="Mackenzie Dy standing in the mountains under a cloudy sky"
@@ -107,7 +116,7 @@ export default function Home() {
               className="object-cover"
               sizes="(min-width: 768px) 360px, 100vw"
             />
-          </div>
+          </motion.div>
         </motion.section>
 
         {/* the ascent — into the trees, above the clouds */}

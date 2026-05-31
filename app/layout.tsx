@@ -68,7 +68,7 @@ export default function RootLayout({
       <body suppressHydrationWarning className="bg-parchment text-ink min-h-screen flex flex-col">
         <ThemeProvider attribute="class" forcedTheme="light">
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 overflow-x-clip">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>
