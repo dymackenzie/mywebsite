@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion, useReducedMotion } from 'motion/react'
 import { CinematicClip } from '@/components/ui/cinematic-clip'
-import { HERO_CLIP, STORY_CLIPS, EMAIL } from '@/app/data'
+import { HERO_CLIP, STORY_CLIPS, EMAIL, WORK_EXPERIENCE } from '@/app/data'
 
 function clip(id: string) {
   return STORY_CLIPS.find((c) => c.id === id)!
@@ -120,16 +120,16 @@ export default function Home() {
           <PhaseLabel>the ascent</PhaseLabel>
           <div className="grid grid-cols-12 items-end gap-5">
             <CinematicClip
-              {...clip('trail')}
+              {...clip('peak')}
               from="left"
               captionBelow
-              className="col-span-12 aspect-[3/4] sm:col-span-7"
+              className="col-span-12 aspect-[4/5] sm:col-span-7"
             />
             <CinematicClip
-              {...clip('peak')}
+              {...clip('trail')}
               from="right"
               captionBelow
-              className="col-span-12 aspect-[4/5] sm:col-span-5 sm:mb-10"
+              className="col-span-12 aspect-[3/4] sm:col-span-5 sm:mb-10"
             />
           </div>
         </section>
@@ -183,6 +183,37 @@ export default function Home() {
         >
           and the day folds into gold.
         </motion.p>
+      </section>
+
+      <section className="mx-auto max-w-screen-md px-6 pt-12">
+        <ul className="space-y-px">
+          {WORK_EXPERIENCE.map((job) => (
+            <motion.li
+              key={job.id}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <a
+                href={job.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-baseline justify-between gap-4 border-b border-stone-200 py-3 transition-colors hover:border-stone-300"
+              >
+                <span className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
+                  <span className="text-base text-ink transition-colors group-hover:text-ink-muted">
+                    {job.company}
+                  </span>
+                  <span className="text-sm text-ink-muted">{job.title}</span>
+                </span>
+                <span className="shrink-0 text-sm tabular-nums text-ink-faint">
+                  {job.start}&thinsp;&ndash;&thinsp;{job.end}
+                </span>
+              </a>
+            </motion.li>
+          ))}
+        </ul>
       </section>
 
       <section className="mx-auto max-w-screen-md px-6 pb-16 pt-10">

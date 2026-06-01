@@ -98,20 +98,20 @@ export function VideoTile({
             loop
             playsInline
             autoPlay
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full rounded-xl object-cover"
           />
         ) : thumbnail ? (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src={thumbnail}
             alt={title}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full rounded-xl object-cover"
           />
         ) : (
-          <div className="absolute inset-0 bg-stone-300" />
+          <div className="absolute inset-0 rounded-xl bg-stone-300" />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-ink/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
           <p className="font-serif text-sm font-medium text-parchment leading-snug line-clamp-2">
             {title}

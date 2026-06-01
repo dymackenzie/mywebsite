@@ -92,6 +92,15 @@ export const PROJECTS: Project[] = [
 
 export const VIDEOS: Video[] = [
   {
+    title: 'nwPlus Hiring 2026',
+    description: '2026 nwPlus hiring video',
+    youtube: 'https://www.instagram.com/p/DWZn5cEkk4m/',
+    date: '2025-01-07',
+    id: 'video1',
+    preview: '',
+    poster: 'posters/hiring.png',
+  },
+  {
     title: 'cmdf 2026',
     description: 'cinematic recap of cmdf 2026',
     youtube: 'https://youtu.be/zTsglLJ3bG8',
@@ -135,7 +144,7 @@ export const VIDEOS: Video[] = [
     date: '2025-10-22',
     id: 'video5',
     preview: '',
-    poster: '',
+    poster: 'posters/pizza.png',
   },
   {
     title: 'in another life, my mother...',
@@ -202,22 +211,19 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
   },
 ]
 
-const CLIP_PLACEHOLDER =
-  'https://res.cloudinary.com/dy5qhfyed/video/upload/v1776219450/lower_assorted_clips_fi5eej.mp4'
-
 export const HERO_CLIP: CinematicClip = {
   id: 'hero-dawn',
-  src: CLIP_PLACEHOLDER, // TODO: sunrise / dawn establishing clip
+  src: 'https://res.cloudinary.com/dy5qhfyed/video/upload/v1780305038/assorted_clips_ixrmdi.mp4',
   caption: 'first light',
 }
 
 export const STORY_CLIPS: CinematicClip[] = [
-  { id: 'peak', src: CLIP_PLACEHOLDER, caption: 'above the clouds' },     // TODO: mountain peak
-  { id: 'trail', src: CLIP_PLACEHOLDER, caption: 'into the trees' },      // TODO: forest trail
-  { id: 'river', src: CLIP_PLACEHOLDER, caption: 'where the water runs' },// TODO: river / water
-  { id: 'run', src: CLIP_PLACEHOLDER, caption: 'keep moving' },           // TODO: running / motion
-  { id: 'climb', src: CLIP_PLACEHOLDER, caption: 'a little higher' },     // TODO: bouldering / climb
-  { id: 'sunset', src: CLIP_PLACEHOLDER, caption: 'golden hour' },        // TODO: sunset / dusk
+  { id: 'peak', src: 'https://res.cloudinary.com/dy5qhfyed/video/upload/v1780305010/pano_i7ppeh.mp4', caption: 'above the clouds' },
+  { id: 'trail', src: 'https://res.cloudinary.com/dy5qhfyed/video/upload/v1780307650/forest_v3jnkn.mp4', caption: 'into the trees' },
+  { id: 'river', src: 'https://res.cloudinary.com/dy5qhfyed/video/upload/v1780305010/water_bt6k8l.mp4', caption: 'where the water runs' },
+  { id: 'run', src: 'https://res.cloudinary.com/dy5qhfyed/video/upload/v1780305016/moving_hknj04.mp4', caption: 'keep moving' },
+  { id: 'climb', src: 'https://res.cloudinary.com/dy5qhfyed/video/upload/v1780305020/climb_v8shlq.mp4', caption: 'a little higher' },
+  { id: 'sunset', src: 'https://res.cloudinary.com/dy5qhfyed/video/upload/v1780305009/golden_nwti9d.mp4', caption: 'golden hour' },
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [

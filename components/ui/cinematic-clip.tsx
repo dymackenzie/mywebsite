@@ -75,9 +75,15 @@ export function CinematicClip({
           playsInline
           autoPlay={priority}
           preload={priority ? 'auto' : 'metadata'}
-          className="absolute inset-0 h-full w-full object-cover"
+          className={`absolute inset-0 h-full w-full object-cover ${
+            rounded ? 'rounded-2xl' : ''
+          }`}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent" />
+        <div
+          className={`absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent ${
+            rounded ? 'rounded-2xl' : ''
+          }`}
+        />
 
         {caption && !captionBelow && (
           <figcaption className="absolute bottom-3 left-4 font-serif text-sm italic text-parchment/0 transition-colors duration-500 group-hover:text-parchment/90">
