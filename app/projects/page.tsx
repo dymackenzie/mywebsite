@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'motion/react'
-import { PROJECTS, WORK_EXPERIENCE } from '@/app/data'
+import { PROJECTS } from '@/app/data'
 import {
   VARIANTS_CONTAINER,
   VARIANTS_SECTION,
@@ -12,7 +12,6 @@ import {
 export default function ProjectsPage() {
   return (
     <div className="mx-auto max-w-screen-md px-6 py-16">
-      {/* Projects */}
       <motion.section
         variants={VARIANTS_CONTAINER}
         initial="hidden"
@@ -56,48 +55,6 @@ export default function ProjectsPage() {
           ))}
         </div>
       </motion.section>
-
-      {/* Work Experience */}
-      {/* <motion.section
-        variants={VARIANTS_CONTAINER}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        <motion.h2
-          variants={VARIANTS_SECTION}
-          className="font-serif text-3xl font-semibold text-ink mb-8"
-        >
-          Experience
-        </motion.h2>
-
-        <div className="space-y-0">
-          {WORK_EXPERIENCE.map((job, i) => (
-            <motion.div
-              key={job.id}
-              variants={VARIANTS_ITEM}
-              className={`flex items-start justify-between py-5 ${
-                i < WORK_EXPERIENCE.length - 1 ? 'border-b border-stone-200/60' : ''
-              }`}
-            >
-              <div>
-                <a
-                  href={job.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-ink hover:text-moss-600 transition-colors"
-                >
-                  {job.company}
-                </a>
-                <p className="text-sm text-ink-muted mt-0.5">{job.title}</p>
-              </div>
-              <p className="text-sm text-ink-faint shrink-0 ml-4">
-                {job.start}–{job.end}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-      </motion.section> */}
     </div>
   )
 }

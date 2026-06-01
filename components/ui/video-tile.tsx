@@ -89,7 +89,6 @@ export function VideoTile({
         transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
         whileHover={shouldReduceMotion ? {} : { scale: 1.03, rotate: 0.3, zIndex: 10 }}
       >
-        {/* Preview video */}
         {preview ? (
           <video
             ref={videoRef}
@@ -112,7 +111,6 @@ export function VideoTile({
           <div className="absolute inset-0 bg-stone-300" />
         )}
 
-        {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
           <p className="font-serif text-sm font-medium text-parchment leading-snug line-clamp-2">
@@ -126,7 +124,6 @@ export function VideoTile({
           )}
         </div>
 
-        {/* Play icon */}
         {!isInstagram && (
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-parchment/20 backdrop-blur-sm">

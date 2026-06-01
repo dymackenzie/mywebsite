@@ -1,23 +1,18 @@
-import { LikeButton } from '@/components/ui/like-button'
+import { PostHeader } from '@/components/ui/post-header'
+import { definePost } from '@/app/blog/posts'
 
-export const metadata = {
+export const metadata = definePost({
   title: 'Friendships Are Transactional',
   description: 'an exploration into why people stay friends, and the value of it',
-  openGraph: {
-    title: 'Friendships Are Transactional',
-    description: 'an exploration into why people stay friends, and the value of it',
-  },
-}
+  uid: 'blog-1',
+  date: '2026-05-04',
+  tags: ['life'],
+  cover: '/blog/monet_impression_sunrise.jpg',
+  pinned: true,
+  featuredMain: true,
+})
 
-<Cover src="/blog/monet_impression_sunrise.jpg" alt="a sunrise" caption="" />
-
-# Friendships Are Transactional
-
-<div className="flex items-center gap-4 text-sm text-ink-faint mt-2 mb-8">
-  <span>May 4, 2026</span>
-  <span className="bg-stone-100 text-ink-muted rounded-full px-2 py-0.5">life</span>
-  <LikeButton uid="blog-1" />
-</div>
+<PostHeader meta={metadata} />
 
 In recent conversations with a few friends, there were times I would do something for them, and when they thanked me later, I would give a cheeky little grin and say, "Transactional friendships!" Of course, I would say this in a joking way, but the more I thought about it the more I realized that many people live this way without admitting to it, including me.
 

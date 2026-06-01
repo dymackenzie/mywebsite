@@ -45,7 +45,6 @@ export default function Home() {
 
   return (
     <>
-      {/* ───────────── HERO — contained clip, profile beneath ───────────── */}
       <section className="mx-auto max-w-screen-md px-6 pt-8 md:pt-10">
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
@@ -83,9 +82,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* ───────── STORY FEED — words woven through a day in nature ───────── */}
       <div className="mx-auto max-w-screen-md space-y-12 px-6 py-12 md:space-y-14 md:py-16">
-        {/* words — what I do, with profile alongside */}
         <motion.section
           initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -119,7 +116,6 @@ export default function Home() {
           </motion.div>
         </motion.section>
 
-        {/* the ascent — into the trees, above the clouds */}
         <section>
           <PhaseLabel>the ascent</PhaseLabel>
           <div className="grid grid-cols-12 items-end gap-5">
@@ -138,13 +134,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* words — everything in moderation */}
         <Words>
           I believe everything is better in moderation, so while not working, I
           love to hike, run, photograph, boulder, and live life to its fullest.
         </Words>
 
-        {/* midday — where the water runs */}
         <section>
           <PhaseLabel>midday</PhaseLabel>
           <CinematicClip
@@ -155,7 +149,6 @@ export default function Home() {
           />
         </section>
 
-        {/* the long afternoon — keep moving, a little higher */}
         <section>
           <PhaseLabel>the long afternoon</PhaseLabel>
           <div className="grid grid-cols-12 items-start gap-5">
@@ -175,7 +168,6 @@ export default function Home() {
         </section>
       </div>
 
-      {/* ───────── dusk — golden hour, contained close ───────── */}
       <section className="mx-auto max-w-screen-md px-6">
         <CinematicClip
           {...clip('sunset')}
@@ -193,7 +185,6 @@ export default function Home() {
         </motion.p>
       </section>
 
-      {/* ───────── CLOSING — a quiet hello ───────── */}
       <section className="mx-auto max-w-screen-md px-6 pb-16 pt-10">
         <Words>
           If you want to say hello or talk about something interesting, reach me

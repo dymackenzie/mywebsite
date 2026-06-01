@@ -17,12 +17,10 @@ export function Header() {
   const shouldReduceMotion = useReducedMotion()
   const [open, setOpen] = useState(false)
 
-  // Close the mobile menu whenever the route changes.
   useEffect(() => {
     setOpen(false)
   }, [pathname])
 
-  // Close on Escape.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(false)
@@ -53,7 +51,6 @@ export function Header() {
             </span>
           </Link>
 
-          {/* Desktop nav */}
           <nav className="hidden sm:block">
             <ul className="flex items-center gap-6">
               {NAV_LINKS.map(({ href, label }) => {
@@ -76,7 +73,6 @@ export function Header() {
             </ul>
           </nav>
 
-          {/* Mobile hamburger */}
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
@@ -110,7 +106,6 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence initial={false}>
         {open && (
           <motion.nav

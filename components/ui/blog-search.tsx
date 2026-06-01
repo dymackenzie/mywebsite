@@ -42,14 +42,12 @@ export function BlogSearch({ posts }: Props) {
     setQuery('')
   }, [])
 
-  // Auto-focus input when modal opens
   useEffect(() => {
     if (open) {
       setTimeout(() => inputRef.current?.focus(), 50)
     }
   }, [open])
 
-  // Keyboard: Esc closes, / opens
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && open) closeModal()
@@ -62,7 +60,6 @@ export function BlogSearch({ posts }: Props) {
     return () => document.removeEventListener('keydown', onKey)
   }, [open, openModal, closeModal])
 
-  // Trap focus within modal
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) closeModal()
   }

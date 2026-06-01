@@ -16,12 +16,10 @@ export function LikeButton({ uid }: Props) {
   const storageKey = `liked:${uid}`
 
   useEffect(() => {
-    // Check if already liked
     try {
       setLiked(localStorage.getItem(storageKey) === '1')
     } catch {}
 
-    // Fetch initial count
     fetch(`/api/likes/${uid}`)
       .then((r) => r.json())
       .then((d) => setCount(d.count ?? 0))
@@ -31,7 +29,6 @@ export function LikeButton({ uid }: Props) {
   const handleLike = async () => {
     if (liked) return
 
-    // Optimistic
     setCount((c) => (c ?? 0) + 1)
     setLiked(true)
     setAnimating(true)
@@ -45,9 +42,7 @@ export function LikeButton({ uid }: Props) {
       const res = await fetch(`/api/likes/${uid}`, { method: 'POST' })
       const data = await res.json()
       setCount(data.count ?? (count ?? 0) + 1)
-    } catch {
-      // keep optimistic count
-    }
+    } catch {}
   }
 
   return (

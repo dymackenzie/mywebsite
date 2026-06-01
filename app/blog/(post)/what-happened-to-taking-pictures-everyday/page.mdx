@@ -1,0 +1,15 @@
+import { PostHeader } from '@/components/ui/post-header'
+import { definePost } from '@/app/blog/posts'
+
+export const metadata = definePost({
+  title: 'What Happened to Taking One Picture a Day?',
+  description: 'am I still being present?',
+  uid: 'blog-2',
+  date: '2026-06-01',
+  tags: ['life'],
+  cover: '/blog/the_monk_by_the_sea.jpg',
+})
+
+<PostHeader meta={metadata} />
+
+Write your post here.

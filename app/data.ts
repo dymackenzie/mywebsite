@@ -15,18 +15,6 @@ type WorkExperience = {
   id: string
 }
 
-type BlogPost = {
-  title: string
-  description: string
-  link: string
-  uid: string
-  date?: string
-  tags?: string[]
-  cover?: string          // cover image path, e.g. /images/KEN08704.jpeg
-  pinned?: boolean        // show in pinned section on blog index (max 3)
-  featuredMain?: boolean  // the one larger pinned card (only one)
-}
-
 type SocialLink = {
   label: string
   link: string
@@ -34,20 +22,20 @@ type SocialLink = {
 
 type CinematicClip = {
   id: string
-  src: string       // Cloudinary muted-loop MP4
-  poster?: string   // still-frame fallback
-  caption?: string  // short poetic line tied to its place in the story
+  src: string 
+  poster?: string
+  caption?: string
 }
 
 type Video = {
   title: string
   description?: string
-  youtube: string         // full YouTube URL (or Instagram URL for instagram entries)
+  youtube: string
   thumbnail?: string
   date?: string
   id: string
   preview?: string
-  poster?: string         // still frame fallback for preview
+  poster?: string
 }
 
 export const PROJECTS: Project[] = [
@@ -212,46 +200,6 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
     link: 'https://nwplus.io',
     id: 'work2',
   },
-  // {
-  //   company: 'Creation Point Media',
-  //   title: 'Video Editor',
-  //   start: '2024',
-  //   end: '2024',
-  //   link: 'https://www.movie-mint.com/',
-  //   id: 'work3',
-  // },
-  // {
-  //   company: 'Creation Point Media',
-  //   title: 'Digital Media & Technology Intern',
-  //   start: '2021',
-  //   end: '2021',
-  //   link: 'https://www.movie-mint.com/',
-  //   id: 'work4',
-  // },
-]
-
-export const BLOG_POSTS: BlogPost[] = [
-  {
-    title: 'Friendships Are Transactional',
-    description: 'an exploration into why people stay friends, and the value of it',
-    link: '/blog/friendships-are-transactional',
-    uid: 'blog-1',
-    date: '2026-05-04',
-    tags: ['life'],
-    cover: '/blog/monet_impression_sunrise.jpg',
-    pinned: true,
-    featuredMain: true,
-  },
-  // {
-  //   title: 'what does it mean to live a full life?',
-  //   description: 'reflections on a year of searching for the answer',
-  //   link: '/blog/what-does-it-mean-to-live-a-full-life',
-  //   uid: 'blog-2',
-  //   date: '2026-01-08',
-  //   tags: ['life', 'faith'],
-  //   cover: '/images/KEN08704.jpeg',
-  //   pinned: true,
-  // },
 ]
 
 const CLIP_PLACEHOLDER =
