@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
+import { cldVideo, cldPoster } from '@/lib/cloudinary'
 
 type CinematicClipProps = {
   src: string
@@ -69,13 +70,13 @@ export function CinematicClip({
       >
         <video
           ref={videoRef}
-          src={src}
-          poster={poster}
+          src={cldVideo(src, { width: 1280 })}
+          poster={poster ?? cldPoster(src, { width: 1280 })}
           muted
           loop
           playsInline
           autoPlay={priority}
-          preload={priority ? 'auto' : 'metadata'}
+          preload={priority ? 'auto' : 'none'}
           className={`absolute inset-0 h-full w-full scale-105 object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-100 ${
             rounded ? 'rounded-2xl' : ''
           }`}

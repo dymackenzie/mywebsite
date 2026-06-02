@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { VideoLightbox } from '@/components/ui/video-lightbox'
+import { cldVideo } from '@/lib/cloudinary'
 
 type VideoTileProps = {
   title: string
@@ -93,7 +94,7 @@ export function VideoTile({
         {preview ? (
           <video
             ref={videoRef}
-            src={preview}
+            src={cldVideo(preview, { width: 800 })}
             poster={thumbnail || undefined}
             muted
             loop
@@ -106,6 +107,8 @@ export function VideoTile({
           <img
             src={thumbnail}
             alt={title}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 h-full w-full rounded-xl object-cover"
           />
         ) : (

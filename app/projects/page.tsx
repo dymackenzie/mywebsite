@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion } from 'motion/react'
 import { PROJECTS } from '@/app/data'
 import { PageHeader } from '@/components/ui/page-header'
+import { cldVideo, cldPoster } from '@/lib/cloudinary'
 import {
   VARIANTS_CONTAINER,
   VARIANTS_ITEM,
@@ -40,7 +41,8 @@ export default function ProjectsPage() {
                 style={{ aspectRatio: '16/9' }}
               >
                 <video
-                  src={project.video}
+                  src={cldVideo(project.video, { width: 800 })}
+                  poster={cldPoster(project.video, { width: 800 })}
                   muted
                   loop
                   playsInline

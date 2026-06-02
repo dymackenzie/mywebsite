@@ -12,6 +12,7 @@ import {
 import { CinematicClip } from '@/components/ui/cinematic-clip'
 import { FieldLabel } from '@/components/ui/field-label'
 import { HERO_CLIP, STORY_CLIPS, WORK_EXPERIENCE } from '@/app/data'
+import { cldVideo, cldPoster } from '@/lib/cloudinary'
 
 function clip(id: string) {
   return STORY_CLIPS.find((c) => c.id === id)!
@@ -62,12 +63,13 @@ export default function Home() {
           className="relative h-[82vh] min-h-[480px] max-h-[860px] w-full overflow-hidden rounded-2xl shadow-[0_2px_4px_rgba(40,35,28,0.08),0_40px_80px_-40px_rgba(40,35,28,0.6)] ring-1 ring-ink/5"
         >
           <motion.video
-            src={HERO_CLIP.src}
-            poster={HERO_CLIP.poster}
+            src={cldVideo(HERO_CLIP.src, { width: 1920 })}
+            poster={HERO_CLIP.poster ?? cldPoster(HERO_CLIP.src, { width: 1920 })}
             autoPlay
             muted
             loop
             playsInline
+            preload="auto"
             style={{ y: reduce ? 0 : clipY }}
             className="absolute inset-x-0 -top-[10%] h-[120%] w-full object-cover"
           />
@@ -180,11 +182,11 @@ export default function Home() {
           <div className="sm:col-span-3">
             <FieldLabel index="02">Portrait</FieldLabel>
             <h2 className="mt-5 font-serif text-3xl text-ink md:text-4xl">
-              Two things I can do that make a difference:
+              Two things I can do that can change the world:
             </h2>
             <p className="mt-4 text-base leading-relaxed text-ink-muted">
-              Stories, when told right, can change a person's mind and 
-              problems, when fixed, can change a person's direction.
+              Stories, when told right, can change a person&apos;s mind and
+              problems, when fixed, can change a person&apos;s direction.
             </p>
             <p className="mt-4 text-base leading-relaxed text-ink-muted">
               I believe everything is better in moderation, so while not working
