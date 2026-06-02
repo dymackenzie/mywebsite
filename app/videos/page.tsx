@@ -1,29 +1,19 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { VideoTile } from '@/components/ui/video-tile'
 import { VIDEOS } from '@/app/data'
-import { VARIANTS_CONTAINER, VARIANTS_SECTION } from '@/components/ui/animations'
+import { PageHeader } from '@/components/ui/page-header'
 
 export default function VideosPage() {
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6">
-      <motion.div
-        variants={VARIANTS_CONTAINER}
-        initial="hidden"
-        animate="visible"
-        className="mb-12"
-      >
-        <motion.h1
-          variants={VARIANTS_SECTION}
-          className="font-serif text-4xl font-semibold text-ink"
-        >
-          Videos
-        </motion.h1>
-        <motion.p variants={VARIANTS_SECTION} className="mt-2 text-ink-muted">
-          stories told in motion
-        </motion.p>
-      </motion.div>
+      <PageHeader
+        index="03"
+        eyebrow="Reel"
+        title="Videos"
+        lead="Stories told in motion — recaps, films, and the occasional love letter."
+        meta={`${String(VIDEOS.length).padStart(2, '0')} films`}
+      />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {VIDEOS.map((video) => {

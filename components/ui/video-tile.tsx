@@ -81,7 +81,8 @@ export function VideoTile({
     <>
       <motion.button
         onClick={handleClick}
-        className="group relative w-full overflow-hidden rounded-xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-moss-500"
+        data-cursor="view"
+        className="group relative w-full overflow-hidden rounded-xl text-left ring-1 ring-ink/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-moss-500"
         style={{ aspectRatio: '16/9' }}
         initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -113,14 +114,16 @@ export function VideoTile({
 
         <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-ink/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-          <p className="font-serif text-sm font-medium text-parchment leading-snug line-clamp-2">
+          {date && (
+            <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-parchment/60">
+              {formatDate(date)}
+            </p>
+          )}
+          <p className="mt-1.5 font-serif text-sm font-medium leading-snug text-parchment line-clamp-2">
             {title}
           </p>
           {description && (
-            <p className="text-xs text-parchment/70 mt-0.5 line-clamp-1">{description}</p>
-          )}
-          {date && (
-            <p className="text-xs text-parchment/50 mt-1">{formatDate(date)}</p>
+            <p className="mt-0.5 text-xs text-parchment/70 line-clamp-1">{description}</p>
           )}
         </div>
 

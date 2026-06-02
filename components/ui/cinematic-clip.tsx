@@ -58,7 +58,8 @@ export function CinematicClip({
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
     >
       <motion.div
-        className={`group relative h-full w-full overflow-hidden ${
+        data-cursor="view"
+        className={`group relative h-full w-full overflow-hidden shadow-[0_1px_2px_rgba(40,35,28,0.06),0_18px_40px_-24px_rgba(40,35,28,0.5)] ring-1 ring-ink/5 ${
           rounded ? 'rounded-2xl' : ''
         }`}
         whileHover={
@@ -75,7 +76,7 @@ export function CinematicClip({
           playsInline
           autoPlay={priority}
           preload={priority ? 'auto' : 'metadata'}
-          className={`absolute inset-0 h-full w-full object-cover ${
+          className={`absolute inset-0 h-full w-full scale-105 object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-100 ${
             rounded ? 'rounded-2xl' : ''
           }`}
         />
@@ -86,14 +87,14 @@ export function CinematicClip({
         />
 
         {caption && !captionBelow && (
-          <figcaption className="absolute bottom-3 left-4 font-serif text-sm italic text-parchment/0 transition-colors duration-500 group-hover:text-parchment/90">
+          <figcaption className="field-note absolute bottom-4 left-4 translate-y-1 text-parchment/0 transition-all duration-500 group-hover:translate-y-0 group-hover:text-parchment/90">
             {caption}
           </figcaption>
         )}
       </motion.div>
 
       {caption && captionBelow && (
-        <figcaption className="mt-2 font-serif text-sm italic text-ink-faint">
+        <figcaption className="field-note mt-3 text-ink-faint">
           {caption}
         </figcaption>
       )}

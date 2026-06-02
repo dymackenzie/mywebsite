@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import { imageSize } from 'image-size'
 import { Metadata } from 'next'
 import { GalleryGrid, GalleryImage } from '@/components/ui/gallery-grid'
+import { PageHeader } from '@/components/ui/page-header'
 
 export const metadata: Metadata = {
   title: 'Photographs',
@@ -35,13 +36,14 @@ export default function GalleryPage() {
   const images = getImages()
 
   return (
-    <div className="mx-auto max-w-screen-md px-6 py-16">
-      <div className="mb-12">
-        <h1 className="font-serif text-4xl font-semibold text-ink">Photographs</h1>
-        <p className="mt-2 text-ink-muted">
-          {images.length} photographs — moments captured in stillness
-        </p>
-      </div>
+    <div className="mx-auto max-w-screen-xl px-6 py-16">
+      <PageHeader
+        index="02"
+        eyebrow="Gallery"
+        title="Photographs"
+        lead="Moments caught in stillness — wherever the light happened to fall."
+        meta={`${String(images.length).padStart(2, '0')} frames`}
+      />
 
       <GalleryGrid images={images} />
     </div>

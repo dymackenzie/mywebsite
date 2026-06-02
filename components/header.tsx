@@ -30,7 +30,7 @@ export function Header() {
   }, [])
 
   return (
-    <header className="relative border-b border-stone-200/60">
+    <header className="sticky top-0 z-40 border-b border-stone-200/60 bg-parchment/70 backdrop-blur-md">
       <div className="mx-auto max-w-screen-xl px-4 py-3 sm:px-6 sm:py-4">
         <div className="flex items-center justify-between gap-3">
           <Link href="/" className="group flex items-center gap-3 leading-tight">
@@ -41,37 +41,48 @@ export function Header() {
               aria-hidden="true"
               width={40}
               height={40}
-              className="h-9 opacity-50 w-auto shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 sm:h-10"
+              className="h-9 w-auto shrink-0 opacity-60 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:opacity-100 sm:h-10"
             />
             <span className="flex flex-col">
-              <span className="font-serif text-lg font-semibold text-ink tracking-tight">
+              <span className="font-serif text-lg font-semibold tracking-tight text-ink">
                 Mackenzie Dy
               </span>
-              <span className="text-xs text-ink-muted">a small window into my mindspace</span>
+              <span className="field-note mt-0.5">
+                a window into my mindspace
+              </span>
             </span>
           </Link>
 
           <nav className="hidden sm:block">
-            <ul className="flex items-center gap-6">
-              {NAV_LINKS.map(({ href, label, primary }) => {
+            <ul className="flex items-center gap-7">
+              {NAV_LINKS.map(({ href, label, primary }, i) => {
                 const isActive = pathname === href
                 return (
                   <li key={href}>
                     <Link
                       href={href}
-                      className={`text-sm transition-colors duration-200 ${
-                        primary
-                          ? `font-medium underline decoration-2 underline-offset-4 ${
-                              isActive
-                                ? 'text-moss-700 decoration-moss-400'
-                                : 'text-moss-600 decoration-moss-300/60 hover:text-moss-700 hover:decoration-moss-400'
-                            }`
-                          : isActive
-                            ? 'text-ink font-medium'
-                            : 'text-ink-muted hover:text-ink'
-                      }`}
+                      className="group flex items-baseline gap-1.5"
                     >
-                      {label}
+                      <span
+                        className={`field-note transition-colors duration-200 ${
+                          isActive ? 'text-moss-600' : 'text-ink-faint'
+                        }`}
+                      >
+                        0{i + 1}
+                      </span>
+                      <span
+                        className={`link-underline text-sm transition-colors duration-200 ${
+                          primary
+                            ? isActive
+                              ? 'font-medium text-moss-700'
+                              : 'font-medium text-moss-600 group-hover:text-moss-700'
+                            : isActive
+                              ? 'font-medium text-ink'
+                              : 'text-ink-muted group-hover:text-ink'
+                        }`}
+                      >
+                        {label}
+                      </span>
                     </Link>
                   </li>
                 )
@@ -124,26 +135,35 @@ export function Header() {
             className="overflow-hidden border-t border-stone-200/60 sm:hidden"
           >
             <ul className="mx-auto max-w-screen-xl px-4 py-2">
-              {NAV_LINKS.map(({ href, label, primary }) => {
+              {NAV_LINKS.map(({ href, label, primary }, i) => {
                 const isActive = pathname === href
                 return (
                   <li key={href}>
                     <Link
                       href={href}
                       onClick={() => setOpen(false)}
-                      className={`block py-3 text-base transition-colors duration-200 ${
-                        primary
-                          ? `font-medium underline decoration-2 underline-offset-4 ${
-                              isActive
-                                ? 'text-moss-700 decoration-moss-400'
-                                : 'text-moss-600 decoration-moss-300/60 hover:text-moss-700 hover:decoration-moss-400'
-                            }`
-                          : isActive
-                            ? 'text-ink font-medium'
-                            : 'text-ink-muted hover:text-ink'
-                      }`}
+                      className="flex items-baseline gap-3 py-3"
                     >
-                      {label}
+                      <span
+                        className={`field-note ${
+                          isActive ? 'text-moss-600' : 'text-ink-faint'
+                        }`}
+                      >
+                        0{i + 1}
+                      </span>
+                      <span
+                        className={`text-base transition-colors duration-200 ${
+                          primary
+                            ? isActive
+                              ? 'font-medium text-moss-700'
+                              : 'font-medium text-moss-600'
+                            : isActive
+                              ? 'font-medium text-ink'
+                              : 'text-ink-muted'
+                        }`}
+                      >
+                        {label}
+                      </span>
                     </Link>
                   </li>
                 )

@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from 'next'
-import { Fraunces, Inter } from 'next/font/google'
+import { Fraunces, Inter, IBM_Plex_Mono } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
+import { Cursor } from '@/components/ui/cursor'
 import './globals.css'
 
 const fraunces = Fraunces({
@@ -14,6 +15,13 @@ const fraunces = Fraunces({
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
+  display: 'swap',
+})
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-plex-mono',
   display: 'swap',
 })
 
@@ -63,10 +71,11 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fraunces.variable} ${inter.variable}`}
+      className={`${fraunces.variable} ${inter.variable} ${plexMono.variable}`}
     >
-      <body suppressHydrationWarning className="bg-parchment text-ink min-h-screen flex flex-col">
+      <body id="top" suppressHydrationWarning className="bg-parchment text-ink min-h-screen flex flex-col">
         <ThemeProvider attribute="class" forcedTheme="light">
+          <Cursor />
           <Header />
           <main className="flex-1 overflow-x-clip">{children}</main>
           <Footer />

@@ -100,7 +100,8 @@ export function GalleryGrid({ images }: { images: GalleryImage[] }) {
                 <motion.button
                   key={img.src}
                   onClick={() => setLightboxIdx(globalIdx)}
-                  className="group relative w-full overflow-hidden rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-moss-500"
+                  data-cursor="view"
+                  className="group relative w-full overflow-hidden rounded-lg ring-1 ring-ink/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-moss-500"
                   style={{ aspectRatio: `${aspectRatio}` }}
                   initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}

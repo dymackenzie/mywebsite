@@ -6,10 +6,11 @@ import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import type { Post } from '@/app/blog/posts'
 import { BlogSearch } from '@/components/ui/blog-search'
+import { PageHeader } from '@/components/ui/page-header'
+import { FieldLabel } from '@/components/ui/field-label'
 import { formatDate } from '@/lib/date'
 import {
   VARIANTS_CONTAINER,
-  VARIANTS_SECTION,
   VARIANTS_ITEM,
 } from '@/components/ui/animations'
 
@@ -43,27 +44,14 @@ export function BlogIndex({ posts }: { posts: Post[] }) {
 
   return (
     <div className="mx-auto max-w-screen-md px-6 py-16">
-      <motion.div
-        variants={VARIANTS_CONTAINER}
-        initial="hidden"
-        animate="visible"
-        className="mb-12 flex items-end justify-between"
-      >
-        <div>
-          <motion.h1
-            variants={VARIANTS_SECTION}
-            className="font-serif text-4xl font-semibold text-ink"
-          >
-            Writings
-          </motion.h1>
-          <motion.p variants={VARIANTS_SECTION} className="mt-1 text-ink-muted">
-            thoughts worth keeping
-          </motion.p>
-        </div>
-        <motion.div variants={VARIANTS_SECTION}>
-          <BlogSearch posts={posts} />
-        </motion.div>
-      </motion.div>
+      <PageHeader
+        index="01"
+        eyebrow="Journal"
+        title="Writings"
+        lead="Thoughts worth keeping — on living, making, and the things in between."
+        meta={`${String(posts.length).padStart(2, '0')} entries`}
+        action={<BlogSearch posts={posts} />}
+      />
 
       {pinnedPosts.length > 0 && (
         <motion.section
@@ -72,24 +60,24 @@ export function BlogIndex({ posts }: { posts: Post[] }) {
           animate="visible"
           className="mb-16"
         >
-          <motion.p
-            variants={VARIANTS_SECTION}
-            className="text-xs uppercase tracking-widest text-ink-faint mb-6"
-          >
-            Pinned
-          </motion.p>
+          <div className="mb-6">
+            <FieldLabel>Pinned</FieldLabel>
+          </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {mainPost && (
               <motion.div variants={VARIANTS_ITEM} className="sm:col-span-2">
                 <Link href={mainPost.link} className="group block">
                   {mainPost.cover && (
-                    <div className="relative mb-4 w-full overflow-hidden rounded-xl aspect-[16/7]">
+                    <div
+                      data-cursor="view"
+                      className="relative mb-4 w-full overflow-hidden rounded-xl ring-1 ring-ink/5 aspect-[16/7]"
+                    >
                       <Image
                         src={mainPost.cover}
                         alt={mainPost.title}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                         sizes="(max-width: 768px) 100vw, 768px"
                         priority
                       />
@@ -101,14 +89,14 @@ export function BlogIndex({ posts }: { posts: Post[] }) {
                   {mainPost.description && (
                     <p className="mt-1 text-ink-muted">{mainPost.description}</p>
                   )}
-                  <div className="mt-2 flex items-center gap-3 text-sm text-ink-faint">
-                    <span>{formatDate(mainPost.date)}</span>
+                  <div className="mt-3 flex items-center gap-3">
+                    <span className="field-note">{formatDate(mainPost.date)}</span>
                     {mainPost.tags?.map((tag) => (
                       <span
                         key={tag}
-                        className="bg-stone-100 text-ink-muted rounded-full px-2 py-0.5 text-xs"
+                        className="field-note text-ink-muted"
                       >
-                        {tag}
+                        / {tag}
                       </span>
                     ))}
                   </div>
@@ -120,12 +108,15 @@ export function BlogIndex({ posts }: { posts: Post[] }) {
               <motion.div key={post.uid} variants={VARIANTS_ITEM}>
                 <Link href={post.link} className="group block">
                   {post.cover && (
-                    <div className="relative mb-3 w-full overflow-hidden rounded-xl aspect-[4/3]">
+                    <div
+                      data-cursor="view"
+                      className="relative mb-3 w-full overflow-hidden rounded-xl ring-1 ring-ink/5 aspect-[4/3]"
+                    >
                       <Image
                         src={post.cover}
                         alt={post.title}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                         sizes="(max-width: 640px) 100vw, 350px"
                       />
                     </div>
@@ -138,14 +129,11 @@ export function BlogIndex({ posts }: { posts: Post[] }) {
                       {post.description}
                     </p>
                   )}
-                  <div className="mt-2 flex items-center gap-2 text-xs text-ink-faint">
-                    <span>{formatDate(post.date)}</span>
+                  <div className="mt-2 flex items-center gap-3">
+                    <span className="field-note">{formatDate(post.date)}</span>
                     {post.tags?.map((tag) => (
-                      <span
-                        key={tag}
-                        className="bg-stone-100 text-ink-muted rounded-full px-2 py-0.5"
-                      >
-                        {tag}
+                      <span key={tag} className="field-note text-ink-muted">
+                        / {tag}
                       </span>
                     ))}
                   </div>
@@ -157,12 +145,13 @@ export function BlogIndex({ posts }: { posts: Post[] }) {
       )}
 
       <section>
-        <div className="mb-6 flex items-center gap-1 border-b border-stone-200/60 pb-4">
+        <div className="mb-2 flex items-center gap-2 pb-4">
+          <span className="field-note mr-2 text-ink-faint">Sort</span>
           {(['latest', 'top'] as Filter[]).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`rounded-full px-3 py-1 text-sm transition-colors capitalize ${
+              className={`field-note rounded-full px-3 py-1.5 transition-colors ${
                 filter === f
                   ? 'bg-ink text-parchment'
                   : 'text-ink-muted hover:text-ink'
@@ -183,12 +172,15 @@ export function BlogIndex({ posts }: { posts: Post[] }) {
             <motion.li key={post.uid} variants={VARIANTS_ITEM}>
               <Link href={post.link} className="group flex items-start gap-4 py-5">
                 {post.cover && (
-                  <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-lg">
+                  <div
+                    data-cursor="view"
+                    className="relative h-16 w-24 shrink-0 overflow-hidden rounded-lg ring-1 ring-ink/5"
+                  >
                     <Image
                       src={post.cover}
                       alt={post.title}
                       fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                       sizes="96px"
                     />
                   </div>
@@ -202,17 +194,14 @@ export function BlogIndex({ posts }: { posts: Post[] }) {
                       {post.description}
                     </p>
                   )}
-                  <div className="mt-1.5 flex flex-wrap items-center gap-2 text-xs text-ink-faint">
-                    <span>{formatDate(post.date)}</span>
+                  <div className="mt-2 flex flex-wrap items-center gap-3">
+                    <span className="field-note">{formatDate(post.date)}</span>
                     {post.tags?.map((tag) => (
-                      <span
-                        key={tag}
-                        className="bg-stone-100 text-ink-muted rounded-full px-2 py-0.5"
-                      >
-                        {tag}
+                      <span key={tag} className="field-note text-ink-muted">
+                        / {tag}
                       </span>
                     ))}
-                    <span className="ml-auto">
+                    <span className="field-note ml-auto text-ink-faint">
                       {likeCounts[post.uid] !== undefined
                         ? `♥ ${likeCounts[post.uid]}`
                         : ''}

@@ -96,7 +96,7 @@ export const VIDEOS: Video[] = [
     description: '2026 nwPlus hiring video',
     youtube: 'https://www.instagram.com/p/DWZn5cEkk4m/',
     date: '2025-01-07',
-    id: 'video1',
+    id: 'video10',
     preview: '',
     poster: 'posters/hiring.png',
   },
@@ -214,7 +214,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
 export const HERO_CLIP: CinematicClip = {
   id: 'hero-dawn',
   src: 'https://res.cloudinary.com/dy5qhfyed/video/upload/v1780305038/assorted_clips_ixrmdi.mp4',
-  caption: 'first light',
+  caption: '',
 }
 
 export const STORY_CLIPS: CinematicClip[] = [
