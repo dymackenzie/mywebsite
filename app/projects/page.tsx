@@ -1,46 +1,84 @@
- 'use client'
+'use client'
 
+import Link from 'next/link'
 import { motion } from 'motion/react'
-import ProjectVideo from '@/components/ui/project-video'
 import { PROJECTS } from '@/app/data'
-import { VARIANTS_CONTAINER, VARIANTS_SECTION, TRANSITION_SECTION } from '@/components/ui/animations'
+import { PageHeader } from '@/components/ui/page-header'
+import { cldVideo, cldPoster } from '@/lib/cloudinary'
+import {
+  VARIANTS_CONTAINER,
+  VARIANTS_ITEM,
+} from '@/components/ui/animations'
 
 export default function ProjectsPage() {
   return (
-    <motion.main
-      className="max-w-none"
-      variants={VARIANTS_CONTAINER}
-      initial="hidden"
-      animate="visible"
-    >
-      <motion.section
-        className="mt-6"
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
+    <div className="mx-auto max-w-screen-xl px-6 py-16">
+      <PageHeader
+        index="04"
+        eyebrow="Selected work"
+        title="Projects"
+        lead="Things I've built — for the love of the game."
+        meta={`${String(PROJECTS.length).padStart(2, '0')} builds`}
+      />
+
+      <motion.div
+        variants={VARIANTS_CONTAINER}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2"
       >
-        <h3 className="mb-5 text-lg font-medium text-black dark:text-white">Projects</h3>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {PROJECTS.map((project) => (
-            <motion.div key={project.id} className="space-y-2" variants={VARIANTS_SECTION}>
-              <div className="relative rounded-2xl bg-zinc-50/40 p-0 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950/40 dark:ring-zinc-800/50">
-                <ProjectVideo src={project.video} />
-              </div>
-              <div className="px-1">
-                <a
-                  className="font-base group relative inline-block font-[450] text-zinc-900 dark:text-zinc-50 no-underline"
-                  href={project.link}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+        {PROJECTS.map((project, i) => (
+          <motion.div key={project.id} variants={VARIANTS_ITEM} className="group">
+            <Link
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="view"
+              className="block"
+            >
+              <div
+                className="relative overflow-hidden rounded-2xl shadow-[0_1px_2px_rgba(40,35,28,0.06),0_20px_44px_-26px_rgba(40,35,28,0.5)] ring-1 ring-ink/5"
+                style={{ aspectRatio: '16/9' }}
+              >
+                <video
+                  src={cldVideo(project.video, { width: 800 })}
+                  poster={cldPoster(project.video, { width: 800 })}
+                  muted
+                  loop
+                  playsInline
+                  autoPlay
+                  className="absolute inset-0 h-full w-full scale-105 object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-ink/15" />
+
+                <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
+                  <span className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-parchment/70">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="text-parchment/70 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-parchment"
+                  >
+                    &#8599;
+                  </span>
+                </div>
+
+                <h2 className="absolute bottom-0 left-0 p-4 font-serif text-xl font-medium text-parchment">
                   {project.name}
-                  <span className="absolute bottom-0 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 dark:bg-zinc-50 transition-all duration-200 group-hover:max-w-full"></span>
-                </a>
-                <p className="mt-0 text-base text-zinc-600 dark:text-zinc-400">{project.description}</p>
+                </h2>
               </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.section>
-    </motion.main>
+            </Link>
+            <p className="mt-3 px-1 text-sm leading-relaxed text-ink-muted">
+              {project.description}
+            </p>
+            {project.longDescription && (
+              <p className="mt-2 px-1 text-sm leading-relaxed text-ink/60">
+                {project.longDescription}
+              </p>
+            )}
+          </motion.div>
+        ))}
+      </motion.div>
+    </div>
   )
 }

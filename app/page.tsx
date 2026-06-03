@@ -1,222 +1,503 @@
 'use client'
 
+import { useRef } from 'react'
 import Image from 'next/image'
-import { motion } from 'motion/react'
-import { Magnetic } from '@/components/ui/magnetic'
-import { BackgroundVideo } from '@/components/ui/background-video'
-import { VARIANTS_CONTAINER, VARIANTS_SECTION, TRANSITION_SECTION } from '@/components/ui/animations'
-import { EMAIL, SOCIAL_LINKS } from './data'
+import Link from 'next/link'
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from 'motion/react'
+import { CinematicClip } from '@/components/ui/cinematic-clip'
+import { FieldLabel } from '@/components/ui/field-label'
+import { HERO_CLIP, STORY_CLIPS, WORK_EXPERIENCE } from '@/app/data'
+import { cldVideo, cldPoster } from '@/lib/cloudinary'
 
-function MagneticSocialLink({
-  children,
-  link,
-}: {
-  children: React.ReactNode
-  link: string
-}) {
+function clip(id: string) {
+  return STORY_CLIPS.find((c) => c.id === id)!
+}
+
+const EASE = [0.22, 1, 0.36, 1] as const
+
+/** A quiet paragraph woven between the chapters, with a gentle scroll drift. */
+function Words({ children }: { children: React.ReactNode }) {
+  const reduce = useReducedMotion()
+  const ref = useRef<HTMLParagraphElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  })
+  // Float the line up a touch as it travels through the viewport.
+  const y = useTransform(scrollYProgress, [0, 1], [40, -40])
+
   return (
-    <Magnetic springOptions={{ bounce: 0 }} intensity={0.3}>
-      <a
-        href={link}
-        className="group relative inline-flex shrink-0 items-center gap-[1px] rounded-full bg-zinc-100 px-2.5 py-1 text-sm text-black transition-colors duration-200 hover:bg-zinc-950 hover:text-zinc-50 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
+    <motion.div ref={ref} style={reduce ? undefined : { y }}>
+      <motion.p
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-80px' }}
+        transition={{ duration: 0.8, ease: EASE }}
+        className="mx-auto max-w-xl text-center text-lg leading-relaxed text-ink-muted"
       >
         {children}
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 15 15"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-3 w-3"
-        >
-          <path
-            d="M3.64645 11.3536C3.45118 11.1583 3.45118 10.8417 3.64645 10.6465L10.2929 4L6 4C5.72386 4 5.5 3.77614 5.5 3.5C5.5 3.22386 5.72386 3 6 3L11.5 3C11.6326 3 11.7598 3.05268 11.8536 3.14645C11.9473 3.24022 12 3.36739 12 3.5L12 9.00001C12 9.27615 11.7761 9.50001 11.5 9.50001C11.2239 9.50001 11 9.27615 11 9.00001V4.70711L4.35355 11.3536C4.15829 11.5488 3.84171 11.5488 3.64645 11.3536Z"
-            fill="currentColor"
-            fillRule="evenodd"
-            clipRule="evenodd"
-          ></path>
-        </svg>
-      </a>
-    </Magnetic>
+      </motion.p>
+    </motion.div>
   )
 }
 
-export default function Personal() {
+/** An oversized stroked numeral that drifts behind a chapter for depth. */
+function GhostNumeral({
+  children,
+  className = '',
+}: {
+  children: string
+  className?: string
+}) {
+  const reduce = useReducedMotion()
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  })
+  const y = useTransform(scrollYProgress, [0, 1], [120, -120])
+  const rotate = useTransform(scrollYProgress, [0, 1], [-4, 4])
+
+  return (
+    <div
+      ref={ref}
+      aria-hidden
+      className={`pointer-events-none absolute select-none ${className}`}
+    >
+      <motion.span
+        style={reduce ? undefined : { y, rotate }}
+        className="marquee-outline block font-serif font-semibold leading-none text-[clamp(9rem,30vw,24rem)] opacity-[0.18]"
+      >
+        {children}
+      </motion.span>
+    </div>
+  )
+}
+
+export default function Home() {
+  const reduce = useReducedMotion()
+  const heroRef = useRef<HTMLElement>(null)
+  const aboutImgRef = useRef<HTMLDivElement>(null)
+
+  // Parallax: the ambient clip drifts a touch slower than the page.
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  })
+  // Small drift relative to the clip's own height. The clip overflows its frame
+  // by 10% on each side (see classes below), so ±5% never exposes a gap.
+  const clipY = useTransform(scrollYProgress, [0, 1], ['-5%', '5%'])
+  // Cinematic push-in — the film eases closer as the hero scrolls away.
+  const clipScale = useTransform(scrollYProgress, [0, 1], [1, 1.18])
+  // The overlay text lifts and dissolves into the film as you leave.
+  const overlayY = useTransform(scrollYProgress, [0, 0.8], [0, -90])
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  // The whole frame fades toward ink, like a shot fading out.
+  const heroDarken = useTransform(scrollYProgress, [0.2, 1], [0, 0.6])
+  // …and the frame rounds tighter / shrinks a hair as it recedes.
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.94])
+
+  // Page-wide reading progress for the hairline at the very top.
+  const { scrollYProgress: pageProgress } = useScroll()
+  // Dusk falls across the whole page as you descend.
+  const duskOpacity = useTransform(pageProgress, [0, 0.55, 1], [0, 0.18, 0.6])
+
+  // The portrait drifts within its frame.
+  const { scrollYProgress: aboutProgress } = useScroll({
+    target: aboutImgRef,
+    offset: ['start end', 'end start'],
+  })
+  const portraitY = useTransform(aboutProgress, [0, 1], ['-8%', '8%'])
+
   return (
     <>
-      <section className="relative -mx-4 mb-16 hidden max-h-[34rem] overflow-hidden rounded-2xl sm:block sm:h-[62svh] sm:rounded-[2.25rem] lg:h-[66svh] ">
-        <BackgroundVideo
-          src="https://res.cloudinary.com/dy5qhfyed/video/upload/v1776219450/lower_assorted_clips_fi5eej.mp4"
-          className="absolute inset-0"
-          videoClassName="h-full w-full object-contain object-center sm:object-cover"
-          showOverlay={false}
+      {/* reading progress — a clay hairline that fills as you descend */}
+      {!reduce && (
+        <motion.div
+          aria-hidden
+          style={{ scaleX: pageProgress }}
+          className="fixed inset-x-0 top-0 z-50 h-[2px] origin-left bg-clay-400/70"
         />
+      )}
+
+      {/* dusk — a warm-to-cool wash that deepens toward the foot of the page */}
+      {!reduce && (
+        <motion.div
+          aria-hidden
+          style={{ opacity: duskOpacity }}
+          className="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-t from-clay-900/40 via-transparent to-moss-900/15"
+        />
+      )}
+
+      {/* ── Masthead + hero ─────────────────────────────────────────── */}
+      <section
+        ref={heroRef}
+        className="mx-auto max-w-screen-xl px-4 pt-6 sm:px-6 sm:pt-8"
+      >
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, ease: EASE }}
+          style={reduce ? undefined : { scale: heroScale }}
+          data-cursor="view"
+          className="relative h-[82vh] min-h-[480px] max-h-[860px] w-full overflow-hidden rounded-2xl shadow-[0_2px_4px_rgba(40,35,28,0.08),0_40px_80px_-40px_rgba(40,35,28,0.6)] ring-1 ring-ink/5"
+        >
+          <motion.video
+            src={cldVideo(HERO_CLIP.src, { width: 1920 })}
+            poster={HERO_CLIP.poster ?? cldPoster(HERO_CLIP.src, { width: 1920 })}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            style={reduce ? undefined : { y: clipY, scale: clipScale }}
+            className="absolute inset-x-0 -top-[10%] h-[120%] w-full object-cover"
+          />
+
+          {/* legibility scrims: heavier at the bottom, a touch at the top */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/15 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-ink/40 to-transparent" />
+
+          {/* scroll-driven fade to black */}
+          {!reduce && (
+            <motion.div
+              aria-hidden
+              style={{ opacity: heroDarken }}
+              className="pointer-events-none absolute inset-0 bg-ink"
+            />
+          )}
+
+          {/* overlay content */}
+          <motion.div
+            style={reduce ? undefined : { y: overlayY, opacity: overlayOpacity }}
+            className="absolute inset-0 flex flex-col justify-between p-5 sm:p-8 md:p-10"
+          >
+            {/* masthead rail, on the film */}
+            <motion.div
+              initial={reduce ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.4, ease: EASE }}
+              className="flex items-center justify-between text-parchment"
+            >
+              <span className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-parchment/80">
+                {HERO_CLIP.caption ?? 'Field Notes'}
+              </span>
+              <span className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-parchment/60">
+                Portfolio &mdash; 2026
+              </span>
+            </motion.div>
+
+            {/* intro, anchored over the lower third */}
+            <div className="max-w-3xl">
+              <motion.span
+                initial={reduce ? false : { opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.5, ease: EASE }}
+                className="flex items-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.22em] text-parchment/70"
+              >
+                <span aria-hidden className="h-px w-8 bg-parchment/40" />
+                01 &mdash; Introduction
+              </motion.span>
+
+              <h1 className="mt-4 font-serif font-semibold leading-[0.98] text-parchment text-[clamp(2rem,6.5vw,4.75rem)]">
+                {['Hi, I\'m', 'Mackenzie'].map((line, i) => (
+                  <motion.span
+                    key={line}
+                    className="block"
+                    initial={reduce ? false : { opacity: 0, y: '0.4em' }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.9, delay: 0.6 + i * 0.08, ease: EASE }}
+                  >
+                    {line === 'Mackenzie' ? (
+                      <span className="italic text-clay-200">{line}</span>
+                    ) : (
+                      line
+                    )}
+                  </motion.span>
+                ))}
+              </h1>
+
+              <motion.div
+                initial={reduce ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 1, ease: EASE }}
+                className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3"
+              >
+                <Link
+                  href="/blog"
+                  data-cursor
+                  className="group inline-flex items-center gap-2"
+                >
+                  <span className="link-underline relative text-sm text-parchment">
+                    Read my thoughts
+                  </span>
+                  <span
+                    aria-hidden
+                    className="text-clay-200 transition-transform duration-300 group-hover:translate-x-1"
+                  >
+                    &rarr;
+                  </span>
+                </Link>
+              </motion.div>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* scroll cue — fades away once you start descending */}
+        <motion.div style={reduce ? undefined : { opacity: overlayOpacity }}>
+          <motion.div
+            initial={reduce ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1.2, ease: EASE }}
+            className="mt-6 flex items-center gap-3"
+          >
+            <span className="field-note text-ink-faint">Scroll</span>
+            <motion.span
+              aria-hidden
+              className="text-ink-faint"
+              animate={reduce ? undefined : { y: [0, 5, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              &darr;
+            </motion.span>
+          </motion.div>
+        </motion.div>
       </section>
 
-      <motion.main
-        id="home-content"
-        className="scroll-mt-24 space-y-20"
-        variants={VARIANTS_CONTAINER}
-        initial="hidden"
-        animate="visible"
-      >
-        <motion.section
-          variants={VARIANTS_SECTION}
-          transition={TRANSITION_SECTION}
+      {/* ── About ───────────────────────────────────────────────────── */}
+      <section className="mx-auto mt-28 max-w-screen-md px-6">
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.8, ease: EASE }}
+          className="grid grid-cols-1 items-center gap-8 sm:grid-cols-5 sm:gap-10"
         >
-          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <div className="space-y-6">
-              <div className="space-y-4">
-                <p className="max-w-xl text-2xl font-semibold tracking-tight text-zinc-950 sm:text-3xl dark:text-zinc-50">
-                  Hi I'm Mackenzie!
-                </p>
-                <p className="max-w-xl text-base leading-7 text-zinc-600 dark:text-zinc-400">
-                  Two things I can do that make a difference: tell stories and solve problems. Stories, when told right, can change a person's mind and problems, when fixed, can change a person's direction. 
-                  <br />
-                  I believe everything is better in moderation, so while not working, I love to hike, run, photograph, boulder, and live life to its fullest.
-                </p>
-              </div>
-            </div>
+          <div className="sm:col-span-3">
+            <FieldLabel index="02">Portrait</FieldLabel>
+            <h2 className="mt-5 font-serif text-3xl text-ink md:text-4xl">
+              Two things I can do that can change the world:
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-ink-muted">
+              Stories, when told right, can change a person&apos;s mind and
+              problems, when fixed, can change a person&apos;s direction.
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-ink-muted">
+              I believe everything is better in moderation, so while not working
+              I love to hike, run, photograph, boulder, and live life to its
+              fullest. What you&apos;ll find here is the residue of that &mdash;
+              the films, photographs, and things I&apos;ve built along the way.
+            </p>
+          </div>
+          <motion.div
+            ref={aboutImgRef}
+            whileHover={reduce ? undefined : { scale: 1.03, rotate: -1.5 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            data-cursor="view"
+            className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl shadow-md ring-1 ring-ink/5 sm:col-span-2"
+          >
+            <motion.div
+              style={reduce ? undefined : { y: portraitY }}
+              className="absolute inset-x-0 -top-[8%] h-[116%]"
+            >
+              <Image
+                src="/profile.jpg"
+                alt="Mackenzie Dy standing in the mountains under a cloudy sky"
+                fill
+                priority
+                className="object-cover"
+                sizes="(min-width: 768px) 300px, 100vw"
+              />
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </section>
 
-            <div className="relative mx-auto w-full max-w-md lg:max-w-none lg:justify-self-end">
-              <motion.figure
-                whileHover={{ y: -6, rotate: -1 }}
-                transition={{ type: 'spring', stiffness: 180, damping: 18 }}
-                className="group relative overflow-hidden rounded-[2rem]"
-              >
-                <div className="relative overflow-hidden rounded-[1.5rem]">
-                  <Image
-                    src="/profile.jpg"
-                    alt="Mackenzie Dy standing in the mountains under a cloudy sky"
-                    width={1280}
-                    height={1600}
-                    priority
-                    className="aspect-[4/5] w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
-                </div>
-              </motion.figure>
+      {/* ── The day, in chapters ────────────────────────────────────── */}
+      <div className="mx-auto mt-28 max-w-screen-md space-y-20 px-6">
+        <section className="relative overflow-visible">
+          <GhostNumeral className="-left-10 -top-24 sm:-left-24">03</GhostNumeral>
+          <div className="relative">
+            <FieldLabel index="03">The ascent</FieldLabel>
+            <div className="mt-8 grid grid-cols-12 items-end gap-5">
+              <CinematicClip
+                {...clip('peak')}
+                from="left"
+                reveal
+                parallax={40}
+                captionBelow
+                className="col-span-12 aspect-[4/5] sm:col-span-7"
+              />
+              <CinematicClip
+                {...clip('trail')}
+                from="right"
+                reveal
+                parallax={-56}
+                captionBelow
+                className="col-span-12 aspect-[3/4] sm:col-span-5 sm:mb-10"
+              />
             </div>
           </div>
-        </motion.section>
+        </section>
 
-      {/* <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-        <h3 className="mb-5 text-lg font-medium">Selected Projects</h3>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {PROJECTS.slice(0, 2).map((project) => (
-            <div key={project.name} className="space-y-2">
-              <div className="relative rounded-2xl bg-zinc-50/40 p-0 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950/40 dark:ring-zinc-800/50">
-                <ProjectVideo src={project.video} />
-              </div>
-              <div className="px-1">
-                <a
-                  className="font-base group relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
-                  href={project.link}
-                  target="_blank"
-                >
-                  {project.name}
-                  <span className="absolute bottom-0 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 dark:bg-zinc-50 transition-all duration-200 group-hover:max-w-full"></span>
-                </a>
-                <p className="text-base text-zinc-600 dark:text-zinc-400">
-                  {project.description}
-                </p>
-              </div>
+        <Words>
+          The best days start before the world is awake, when the trail is yours
+          alone and the light is still deciding what to become.
+        </Words>
+
+        <section className="relative overflow-visible">
+          <GhostNumeral className="-right-10 -top-24 sm:-right-20">04</GhostNumeral>
+          <div className="relative">
+            <FieldLabel index="04">Midday</FieldLabel>
+            <CinematicClip
+              {...clip('river')}
+              from="up"
+              reveal
+              parallax={36}
+              captionBelow
+              className="mx-auto mt-8 aspect-video w-full sm:w-3/4"
+            />
+          </div>
+        </section>
+
+        <section className="relative overflow-visible">
+          <GhostNumeral className="-left-10 -top-28 sm:-left-20">05</GhostNumeral>
+          <div className="relative">
+            <FieldLabel index="05">The long afternoon</FieldLabel>
+            <div className="mt-8 grid grid-cols-12 items-start gap-5">
+              <CinematicClip
+                {...clip('run')}
+                from="left"
+                reveal
+                parallax={48}
+                captionBelow
+                className="col-span-12 aspect-video sm:col-span-7 sm:mt-10"
+              />
+              <CinematicClip
+                {...clip('climb')}
+                from="right"
+                reveal
+                parallax={-40}
+                captionBelow
+                className="col-span-12 aspect-[4/5] sm:col-span-5"
+              />
             </div>
-          ))}
-        </div>
-      </motion.section>
+          </div>
+        </section>
+      </div>
 
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-        <h3 className="mb-3 text-lg font-medium">Selected Writing</h3>
-        <div className="flex flex-col space-y-0">
-          <AnimatedBackground
-            enableHover
-            className="h-full w-full rounded-2xl bg-gradient-to-r from-zinc-100 via-white/70 to-white/5 dark:from-indigo-900/20 dark:to-zinc-900/20"
-            transition={{
-              type: 'spring',
-              bounce: 0,
-              duration: 0.2,
-            }}
-          >
-            {BLOG_POSTS.slice(0, 1).map((post) => (
-              <Link
-                key={post.uid}
-                className="-mx-3 rounded-xl px-3 py-3"
-                href={post.link}
-                data-id={post.uid}
+      {/* ── Sunset closer — pinned, caption swells ──────────────────── */}
+      <SunsetCloser />
+
+      {/* ── Experience index ────────────────────────────────────────── */}
+      <section className="relative mx-auto mt-28 max-w-screen-md overflow-visible px-6">
+        <GhostNumeral className="-right-8 -top-24 sm:-right-16">06</GhostNumeral>
+        <div className="relative">
+          <div className="mb-8 flex items-end justify-between">
+            <FieldLabel index="06">Experience</FieldLabel>
+            <span className="field-note text-ink-faint">
+              {String(WORK_EXPERIENCE.length).padStart(2, '0')} entries
+            </span>
+          </div>
+          <ul>
+            {WORK_EXPERIENCE.map((job, i) => (
+              <motion.li
+                key={job.id}
+                initial={reduce ? false : { opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.04, ease: EASE }}
               >
-                <div className="flex flex-col space-y-1">
-                  <h4 className="font-normal dark:text-zinc-100">
-                    {post.title}
-                  </h4>
-                  <p className="text-zinc-500 dark:text-zinc-400">
-                    {post.description}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </AnimatedBackground>
-        </div>
-      </motion.section>
-
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-        <h3 className="mb-5 text-lg font-medium">Work Experience</h3>
-        <div className="flex flex-col space-y-2">
-          {WORK_EXPERIENCE.map((job) => (
-            <a
-              className="relative overflow-hidden rounded-2xl bg-transparent dark:bg-transparent"
-              href={job.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={job.id}
-            >
-              <div className="relative h-full w-full rounded-[15px] bg-transparent p-4 dark:bg-transparent">
-                <div className="relative flex w-full flex-row justify-between">
-                  <div>
-                    <h4 className="font-normal dark:text-zinc-100">
+                <a
+                  href={job.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor
+                  className="group grid grid-cols-12 items-baseline gap-3 border-t border-stone-200 py-5 transition-colors last:border-b hover:border-stone-300"
+                >
+                  <span className="field-note col-span-2 text-ink-faint transition-colors group-hover:text-moss-600">
+                    0{i + 1}
+                  </span>
+                  <span className="col-span-7 font-serif text-xl text-ink transition-transform duration-300 group-hover:translate-x-1 sm:text-2xl">
+                    {job.company}
+                    <span className="ml-3 hidden align-middle text-sm text-ink-muted sm:inline">
                       {job.title}
-                    </h4>
-                    <p className="text-zinc-500 dark:text-zinc-400">
-                      {job.company}
-                    </p>
-                  </div>
-                  <p className="text-zinc-600 dark:text-zinc-400">
-                    {job.start} - {job.end}
-                  </p>
-                </div>
-              </div>
-            </a>
-          ))}
+                    </span>
+                    <span className="mt-0.5 block text-sm text-ink-muted sm:hidden">
+                      {job.title}
+                    </span>
+                  </span>
+                  <span className="field-note col-span-3 justify-self-end text-ink-muted">
+                    {job.start}&ndash;{job.end}
+                  </span>
+                </a>
+              </motion.li>
+            ))}
+          </ul>
         </div>
-      </motion.section> */}
-
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-        <p className="mb-5 max-w-xl text-zinc-600 dark:text-zinc-400">
-          If you want to say hello or talk about something interesting, reach me at{' '}
-          <a className="underline dark:text-zinc-300" href={`mailto:${EMAIL}`}>
-            {EMAIL}
-          </a>
-        </p>
-        <div className="flex items-center justify-start space-x-3">
-          {SOCIAL_LINKS.map((link) => (
-            <MagneticSocialLink key={link.label} link={link.link}>
-              {link.label}
-            </MagneticSocialLink>
-          ))}
-        </div>
-      </motion.section>
-    </motion.main>
+      </section>
     </>
+  )
+}
+
+/** The sunset clip pins to the viewport while its caption swells past. */
+function SunsetCloser() {
+  const reduce = useReducedMotion()
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end end'],
+  })
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1.08, 1])
+  const captionScale = useTransform(scrollYProgress, [0.3, 0.9], [0.85, 1.15])
+  const captionOpacity = useTransform(scrollYProgress, [0.3, 0.6], [0, 1])
+
+  if (reduce) {
+    return (
+      <section className="mx-auto mt-24 max-w-screen-md px-6">
+        <CinematicClip
+          {...clip('sunset')}
+          from="up"
+          className="aspect-[16/9] w-full"
+        />
+        <p className="mt-5 text-center font-serif text-xl italic text-ink-faint md:text-2xl">
+          &mdash; and the day folds into gold.
+        </p>
+      </section>
+    )
+  }
+
+  return (
+    <section ref={ref} className="relative mt-24 h-[200vh]">
+      <div className="sticky top-0 flex h-screen flex-col items-center justify-center overflow-hidden px-6">
+        <motion.figure
+          style={{ scale }}
+          className="relative m-0 aspect-[16/9] w-full max-w-screen-md overflow-hidden rounded-2xl shadow-[0_1px_2px_rgba(40,35,28,0.06),0_24px_50px_-28px_rgba(40,35,28,0.55)] ring-1 ring-ink/5"
+        >
+          <video
+            src={cldVideo(clip('sunset').src, { width: 1280 })}
+            poster={cldPoster(clip('sunset').src, { width: 1280 })}
+            muted
+            loop
+            playsInline
+            autoPlay
+            preload="none"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent" />
+        </motion.figure>
+        <motion.p
+          style={{ scale: captionScale, opacity: captionOpacity }}
+          className="mt-8 text-center font-serif text-2xl italic text-ink md:text-3xl"
+        >
+          &mdash; and the day folds into gold.
+        </motion.p>
+      </div>
+    </section>
   )
 }

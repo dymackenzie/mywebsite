@@ -1,44 +1,51 @@
-import fs from 'fs'
-import path from 'path'
-import GalleryView from '@/components/gallery/GalleryView'
+import { readdirSync } from 'node:fs'
+import { join } from 'node:path'
 import { imageSize } from 'image-size'
+import { Metadata } from 'next'
+import { GalleryGrid, GalleryImage } from '@/components/ui/gallery-grid'
+import { PageHeader } from '@/components/ui/page-header'
 
-function getPublicImages() {
-  const publicImagesDir = path.join(process.cwd(), 'public', 'images')
-  let files: string[] = []
+export const metadata: Metadata = {
+  title: 'Photographs',
+  description: 'A collection of photographs by Mackenzie Dy.',
+}
 
-  try {
-    files = fs.readdirSync(publicImagesDir)
-  } catch (e) {
-    return []
-  }
+function getImages(): GalleryImage[] {
+  const dir = join(process.cwd(), 'public', 'images')
+  const files = readdirSync(dir).filter((f) =>
+    /\.(jpe?g|png|webp|gif)$/i.test(f)
+  )
 
-  const allowed = ['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif']
-  const images = files
-    .filter((f) => allowed.includes(path.extname(f).toLowerCase()))
-    .map((f) => {
-      const abs = path.join(publicImagesDir, f)
-        let size: { width: number; height: number } | null = null
-        try {
-          size = imageSize(abs) as { width: number; height: number }
-        } catch (e) {
-          // fall back to null, client will measure onLoad
+  return files
+    .map((file) => {
+      try {
+        const dimensions = imageSize(join(dir, file))
+        return {
+          src: `/images/${file}`,
+          width: dimensions.width ?? 1200,
+          height: dimensions.height ?? 800,
         }
-      return { src: `/images/${f}`, width: size?.width, height: size?.height }
+      } catch {
+        return null
+      }
     })
-
-  for (let i = images.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    const tmp = images[i]
-    images[i] = images[j]
-    images[j] = tmp
-  }
-
-  return images
+    .filter((img): img is GalleryImage => img !== null)
 }
 
 export default function GalleryPage() {
-  const images = getPublicImages()
+  const images = getImages()
 
-  return <GalleryView images={images} />
+  return (
+    <div className="mx-auto max-w-screen-xl px-6 py-16">
+      <PageHeader
+        index="02"
+        eyebrow="Gallery"
+        title="Photographs"
+        lead="Capturing life through my camera — Sony a6700 with a 18-50 mm f/2.8 lens."
+        meta={`${String(images.length).padStart(2, '0')} frames`}
+      />
+
+      <GalleryGrid images={images} />
+    </div>
+  )
 }
