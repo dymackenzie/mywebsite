@@ -41,7 +41,7 @@ export default function GalleryPage() {
         index="02"
         eyebrow="Gallery"
         title="Photographs"
-        lead="Moments caught in stillness — wherever the light happened to fall."
+        lead="Capturing life through my camera — Sony a6700 with a 18-50 mm f/2.8 lens."
         meta={`${String(images.length).padStart(2, '0')} frames`}
       />
 

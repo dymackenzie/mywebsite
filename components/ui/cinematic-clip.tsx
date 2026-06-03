@@ -1,7 +1,12 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from 'motion/react'
 import { cldVideo, cldPoster } from '@/lib/cloudinary'
 
 type CinematicClipProps = {
@@ -17,6 +22,14 @@ type CinematicClipProps = {
   /** Render caption beneath the clip instead of on hover. */
   captionBelow?: boolean
   priority?: boolean
+  /**
+   * Scroll parallax depth. Positive drifts the tile up as the page scrolls,
+   * negative drifts it down; pair opposite signs on adjacent tiles for depth.
+   * 0 disables. Expressed in px of total travel across the viewport.
+   */
+  parallax?: number
+  /** Wipe the clip open with a clip-path reveal as it enters. */
+  reveal?: boolean
 }
 
 export function CinematicClip({
@@ -28,9 +41,12 @@ export function CinematicClip({
   rounded = true,
   captionBelow = false,
   priority = false,
+  parallax = 0,
+  reveal = false,
 }: CinematicClipProps) {
   const shouldReduceMotion = useReducedMotion()
   const videoRef = useRef<HTMLVideoElement>(null)
+  const figureRef = useRef<HTMLElement>(null)
 
   // Play only while on screen — keeps a page full of clips light.
   useEffect(() => {
@@ -47,12 +63,29 @@ export function CinematicClip({
     return () => obs.disconnect()
   }, [])
 
+  // Scroll-linked parallax drift across the whole time the tile is in view.
+  const { scrollYProgress } = useScroll({
+    target: figureRef,
+    offset: ['start end', 'end start'],
+  })
+  const driftY = useTransform(scrollYProgress, [0, 1], [parallax, -parallax])
+
   const offset =
     from === 'left' ? { x: -48 } : from === 'right' ? { x: 48 } : { y: 36 }
 
+  // Direction the clip-path wipe opens from, matching the slide-in.
+  const clipClosed =
+    from === 'left'
+      ? 'inset(0 100% 0 0 round var(--r))'
+      : from === 'right'
+        ? 'inset(0 0 0 100% round var(--r))'
+        : 'inset(100% 0 0 0 round var(--r))'
+
   return (
     <motion.figure
+      ref={figureRef}
       className={`relative m-0 ${className}`}
+      style={parallax && !shouldReduceMotion ? { y: driftY } : undefined}
       initial={shouldReduceMotion ? false : { opacity: 0, ...offset }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
@@ -63,10 +96,22 @@ export function CinematicClip({
         className={`group relative h-full w-full overflow-hidden shadow-[0_1px_2px_rgba(40,35,28,0.06),0_18px_40px_-24px_rgba(40,35,28,0.5)] ring-1 ring-ink/5 ${
           rounded ? 'rounded-2xl' : ''
         }`}
+        style={{ ['--r' as string]: rounded ? '1rem' : '0px' }}
+        initial={
+          shouldReduceMotion || !reveal
+            ? false
+            : { clipPath: clipClosed, scale: 1.08 }
+        }
+        whileInView={
+          reveal
+            ? { clipPath: 'inset(0 0 0 0 round var(--r))', scale: 1 }
+            : undefined
+        }
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
         whileHover={
           shouldReduceMotion ? {} : { scale: 1.025, rotate: -0.4, y: -6 }
         }
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
         <video
           ref={videoRef}

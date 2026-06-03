@@ -169,6 +169,14 @@
     transform-origin: left;
   }
 
+  /* Stroke-only display type — used for the oversized ghost marquee band so
+     it reads as etched into the parchment rather than printed on it. */
+  .marquee-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.25px var(--color-clay-400);
+    text-stroke: 1.25px var(--color-clay-400);
+  }
+
   /* A thin measured rule with a tick at the start — the recurring editorial
      divider that reads like the margin of a field journal. */
   .field-rule {

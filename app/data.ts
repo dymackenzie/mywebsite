@@ -1,6 +1,7 @@
 type Project = {
   name: string
   description: string
+  longDescription?: string
   link: string
   video: string
   id: string
@@ -42,7 +43,9 @@ export const PROJECTS: Project[] = [
   {
     name: 'Terminecraft',
     description:
-      'basic minecraft in terminal through raytracing',
+      'Minecraft in terminal.',
+    longDescription:
+      'Built in C++ with raytracing, Terminecraft is a simple Minecraft clone that runs in the terminal. It features procedurally generated terrain and block manipulation, all rendered using ASCII characters. The project was a fun experiment in graphics programming and performance optimization.',
     link: 'https://github.com/dymackenzie/terminecraft',
     video:
       'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770630478/terminecraft_iluaxf.mp4',
@@ -50,7 +53,10 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'Typo',
-    description: 'a 2D typing dungeon game made in Godot',
+    description: 
+      '2D typing roguelike.',
+    longDescription:
+      'Typo is a 2D typing dungeon game built with the Godot engine in C#. It features a unique gameplay loop where players must type out words to defeat enemies to gain points to upgrade abilities. The game includes multiple enemy types, power-ups, and a scoring system to keep players engaged.',
     link: 'https://dymackenzie.itch.io/typo',
     video:
       'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770630479/typo_wit7vk.mp4',
@@ -58,7 +64,10 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'Immigr8',
-    description: 'an Android social app that allows immigrants to network',
+    description: 
+    'An Android networking app.',
+    longDescription:
+      'Immigr8 is an Android app built with Java designed to connect immigrants with each other and with resources in their new community. It was developed with a team of four others, receiving Best Designed App at the Game of Apps competition.',
     link: 'https://github.com/dymackenzie/Immigr8',
     video:
       'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770631712/immigr8_product_dppzmb.mp4',
@@ -66,7 +75,9 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'Poopyhead',
-    description: 'a multiplayer card game',
+    description: 'A multiplayer online card game.',
+    longDescription:
+      'Poopyhead is a multiplayer online card game built with React and Node.js. Built as a passion project, it features real-time gameplay where players can join rooms and compete against each other. The game includes a variety of cards with different effects, and the backend is powered by WebSockets for seamless communication between players.',
     link: 'https://poopyhead-mcq8.onrender.com',
     video:
       'https://res.cloudinary.com/dy5qhfyed/video/upload/v1779998419/poopyhead_tfnb9j.mp4',
@@ -74,7 +85,9 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'Python Chess Engine',
-    description: "an alphabeta chess engine using Python's Tkinter",
+    description: "A chess engine built in Python.",
+    longDescription:
+      "This chess engine is a simple implementation of the minimax algorithm with alpha-beta pruning, built using Python's Tkinter library for the graphical user interface. It allows users to play against the computer, which evaluates moves based on a basic heuristic. The project was a great way to learn about game development and AI algorithms.",
     link: 'https://github.com/dymackenzie/chess-engine',
     video:
       'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770630479/chess_qxgajq.mp4',
@@ -82,8 +95,10 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'Physics Engine',
-    description: 'a simple 2D physics engine from scratch in Java',
-    link: 'https://github.com/dymackenzie/physics-engine',
+    description: '2D physics engine.',
+    longDescription:
+      'This physics engine is a simple implementation of basic 2D physics principles, built from scratch in Java. It allows users to simulate and visualize the behavior of objects under the influence of forces like gravity and friction.',
+    link: 'https://github.com/dymackenzie/physics_engine',
     video:
       'https://res.cloudinary.com/dy5qhfyed/video/upload/v1770631928/physics_po08qk.mp4',
     id: 'project4',
@@ -191,7 +206,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
     start: '2026',
     end: 'Present',
     link: 'https://nwplus.io',
-    id: 'work5',
+    id: 'work4',
   },
   {
     company: 'Lucid Vision Labs',
@@ -199,7 +214,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
     start: '2024',
     end: 'Present',
     link: 'https://thinklucid.com/',
-    id: 'work1',
+    id: 'work3',
   },
   {
     company: 'nwPlus',
@@ -208,6 +223,14 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
     end: '2026',
     link: 'https://nwplus.io',
     id: 'work2',
+  },
+  {
+    company: 'Kumon',
+    title: 'Math and English Tutor',
+    start: '2022',
+    end: '2023',
+    link: 'https://www.kumon.com/ca-en/',
+    id: 'work1',
   },
 ]
 
