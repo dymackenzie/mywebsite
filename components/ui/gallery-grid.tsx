@@ -20,6 +20,13 @@ type LightboxProps = {
 
 function Lightbox({ images, index, onClose, onPrev, onNext }: LightboxProps) {
   const img = images[index]
+  useEffect(() => {
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [])
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-ink/90"
@@ -28,37 +35,41 @@ function Lightbox({ images, index, onClose, onPrev, onNext }: LightboxProps) {
       <button
         aria-label="Close"
         onClick={onClose}
-        className="absolute top-4 right-4 text-parchment/60 hover:text-parchment text-3xl"
+        className="absolute top-4 right-4 text-parchment/60 hover:text-parchment text-3xl z-60 p-2"
       >
         &times;
       </button>
       <button
         aria-label="Previous"
         onClick={(e) => { e.stopPropagation(); onPrev() }}
-        className="absolute left-4 text-parchment/60 hover:text-parchment text-4xl px-4 py-2"
+        className="absolute left-4 text-parchment/60 hover:text-parchment text-4xl px-6 py-3 z-60"
       >
         &#8249;
       </button>
       <button
         aria-label="Next"
         onClick={(e) => { e.stopPropagation(); onNext() }}
-        className="absolute right-4 text-parchment/60 hover:text-parchment text-4xl px-4 py-2"
+        className="absolute right-4 text-parchment/60 hover:text-parchment text-4xl px-6 py-3 z-60"
       >
         &#8250;
       </button>
       <div
-        className="relative max-h-[90vh] max-w-[90vw]"
-        style={{ aspectRatio: `${img.width} / ${img.height}` }}
+        className="relative p-4"
+        style={{ boxSizing: 'border-box', height: 'calc(100vh - 4rem)', width: 'calc(100vw - 4rem)' }}
         onClick={(e) => e.stopPropagation()}
       >
-        <Image
-          src={img.src}
-          alt=""
-          fill
-          className="object-contain"
-          sizes="90vw"
-          priority
-        />
+        <div className="flex items-center justify-center w-full h-full" style={{ width: '100%', height: '100%' }}>
+          <Image
+            src={img.src}
+            alt=""
+            width={img.width}
+            height={img.height}
+            className="object-contain block"
+            sizes="90vw"
+            priority
+            style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
+          />
+        </div>
       </div>
     </div>
   )
