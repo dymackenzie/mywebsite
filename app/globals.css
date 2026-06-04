@@ -131,6 +131,15 @@
   a {
     color: inherit;
   }
+
+  /* Prevent horizontal scroll site-wide (e.g. full-bleed -mx-4 hero sections,
+     transform-based components, and wide media grids). Safe here because no
+     element relies on position: sticky relative to the viewport. */
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
 }
 
 @layer components {
