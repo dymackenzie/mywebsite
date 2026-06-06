@@ -473,7 +473,7 @@ function SunsetCloser() {
   }
 
   return (
-    <section ref={ref} className="relative mt-24 h-[200vh]">
+    <section ref={ref} className="relative mt-24 h-[100vh]">
       <div className="sticky top-0 flex h-screen flex-col items-center justify-center overflow-hidden px-6">
         <motion.figure
           style={{ scale }}
