@@ -11,7 +11,7 @@ export default function VideosPage() {
         index="03"
         eyebrow="Reel"
         title="Videos"
-        lead="Stories told in motion — recaps, films, and the occasional love letter."
+        lead="A collection of videos I've shot and edited together — stories told in motion."
         meta={`${String(VIDEOS.length).padStart(2, '0')} films`}
       />
 

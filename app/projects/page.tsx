@@ -17,7 +17,7 @@ export default function ProjectsPage() {
         index="04"
         eyebrow="Selected work"
         title="Projects"
-        lead="Things I've built — games, engines, and experiments, mostly for the joy of it."
+        lead="Things I've built — for the love of the game."
         meta={`${String(PROJECTS.length).padStart(2, '0')} builds`}
       />
 
@@ -71,6 +71,11 @@ export default function ProjectsPage() {
             <p className="mt-3 px-1 text-sm leading-relaxed text-ink-muted">
               {project.description}
             </p>
+            {project.longDescription && (
+              <p className="mt-2 px-1 text-sm leading-relaxed text-ink/60">
+                {project.longDescription}
+              </p>
+            )}
           </motion.div>
         ))}
       </motion.div>
