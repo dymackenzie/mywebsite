@@ -4,6 +4,7 @@ import { ThemeProvider } from 'next-themes'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { Cursor } from '@/components/ui/cursor'
+import { Loader } from '@/components/ui/loader'
 import './globals.css'
 
 const fraunces = Fraunces({
@@ -75,6 +76,7 @@ export default function RootLayout({
     >
       <body id="top" suppressHydrationWarning className="bg-parchment text-ink min-h-screen flex flex-col">
         <ThemeProvider attribute="class" forcedTheme="light">
+          <Loader />
           <Cursor />
           <Header />
           <main className="flex-1 overflow-x-clip">{children}</main>

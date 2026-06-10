@@ -46,3 +46,6 @@ planning/
 # claude
 claude/
 CLAUDE.md
+
+# codegraph
+.codegraph/

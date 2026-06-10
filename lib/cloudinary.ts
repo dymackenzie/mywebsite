@@ -11,6 +11,11 @@
 type VideoOpts = {
   /** Max delivered width in px. Pick the largest size the clip is shown at. */
   width?: number
+  /**
+   * Cloudinary quality string. Defaults to 'auto' (balanced).
+   * Use 'auto:best' for the highest-quality delivery tier.
+   */
+  quality?: string
 }
 
 const UPLOAD = '/upload/'
@@ -24,9 +29,9 @@ function insertTransform(url: string, transform: string): string {
   return `${head}${transform}/${tail}`
 }
 
-/** Transformed video URL: auto format + auto quality, optionally width-capped. */
-export function cldVideo(url: string, { width }: VideoOpts = {}): string {
-  const parts = ['f_auto', 'q_auto']
+/** Transformed video URL: auto format + configurable quality, optionally width-capped. */
+export function cldVideo(url: string, { width, quality = 'auto' }: VideoOpts = {}): string {
+  const parts = ['f_auto', `q_${quality}`]
   if (width) parts.push(`w_${width}`, 'c_limit')
   return insertTransform(url, parts.join(','))
 }

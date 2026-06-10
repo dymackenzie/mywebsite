@@ -21,7 +21,6 @@ type CinematicClipProps = {
   rounded?: boolean
   /** Render caption beneath the clip instead of on hover. */
   captionBelow?: boolean
-  priority?: boolean
   /**
    * Scroll parallax depth. Positive drifts the tile up as the page scrolls,
    * negative drifts it down; pair opposite signs on adjacent tiles for depth.
@@ -40,27 +39,52 @@ export function CinematicClip({
   from = 'up',
   rounded = true,
   captionBelow = false,
-  priority = false,
   parallax = 0,
   reveal = false,
 }: CinematicClipProps) {
   const shouldReduceMotion = useReducedMotion()
   const videoRef = useRef<HTMLVideoElement>(null)
   const figureRef = useRef<HTMLElement>(null)
+  // Disable parallax on touch devices — per-frame JS transforms are the main
+  // scroll-jank source on mobile; the visual effect isn't worth the cost there.
+  const isTouchRef = useRef(
+    typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches
+  )
+  const effectiveParallax = isTouchRef.current ? 0 : parallax
 
-  // Play only while on screen — keeps a page full of clips light.
+  // Two-tier loading strategy for smooth, non-laggy playback:
+  // Tier 1 — start buffering when the clip is ~400px away (no pop-in on arrival).
+  // Tier 2 — play when in view, pause when scrolled away (frees GPU decode cycles).
   useEffect(() => {
     const el = videoRef.current
     if (!el) return
-    const obs = new IntersectionObserver(
+
+    const preloadObs = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) el.play().catch(() => {})
-        else el.pause()
+        if (entry.isIntersecting && el.preload === 'none') {
+          el.preload = 'auto'
+        }
       },
-      { threshold: 0.15 }
+      { rootMargin: '400px 0px', threshold: 0 }
     )
-    obs.observe(el)
-    return () => obs.disconnect()
+
+    const playObs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.play().catch(() => {})
+        } else {
+          el.pause()
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    preloadObs.observe(el)
+    playObs.observe(el)
+    return () => {
+      preloadObs.disconnect()
+      playObs.disconnect()
+    }
   }, [])
 
   // Scroll-linked parallax drift across the whole time the tile is in view.
@@ -68,7 +92,7 @@ export function CinematicClip({
     target: figureRef,
     offset: ['start end', 'end start'],
   })
-  const driftY = useTransform(scrollYProgress, [0, 1], [parallax, -parallax])
+  const driftY = useTransform(scrollYProgress, [0, 1], [effectiveParallax, -effectiveParallax])
 
   const offset =
     from === 'left' ? { x: -48 } : from === 'right' ? { x: 48 } : { y: 36 }
@@ -85,7 +109,7 @@ export function CinematicClip({
     <motion.figure
       ref={figureRef}
       className={`relative m-0 ${className}`}
-      style={parallax && !shouldReduceMotion ? { y: driftY } : undefined}
+      style={effectiveParallax && !shouldReduceMotion ? { y: driftY, willChange: 'transform' } : undefined}
       initial={shouldReduceMotion ? false : { opacity: 0, ...offset }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
@@ -120,8 +144,7 @@ export function CinematicClip({
           muted
           loop
           playsInline
-          autoPlay={priority}
-          preload={priority ? 'auto' : 'none'}
+          preload="none"
           className={`absolute inset-0 h-full w-full scale-105 object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-100 ${
             rounded ? 'rounded-2xl' : ''
           }`}
