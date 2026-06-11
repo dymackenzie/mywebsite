@@ -107,10 +107,19 @@ export const PROJECTS: Project[] = [
 
 export const VIDEOS: Video[] = [
   {
+    title: 'sponsorship video for Zocker',
+    description: 'an edit for my brother sponsored by Zocker',
+    youtube: 'https://youtu.be/oDpwF3i9SDU',
+    date: '2026-06-11',
+    id: 'video11',
+    preview: '',
+    poster: '',
+  },
+  {
     title: 'nwPlus Hiring 2026',
     description: '2026 nwPlus hiring video',
     youtube: 'https://www.instagram.com/p/DWZn5cEkk4m/',
-    date: '2025-01-07',
+    date: '2026-03-27',
     id: 'video10',
     preview: '',
     poster: 'posters/hiring.png',
