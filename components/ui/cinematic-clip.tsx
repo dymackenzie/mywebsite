@@ -44,7 +44,7 @@ export function CinematicClip({
 }: CinematicClipProps) {
   const shouldReduceMotion = useReducedMotion()
   const videoRef = useRef<HTMLVideoElement>(null)
-  const figureRef = useRef<HTMLElement>(null)
+  const figureRef = useRef<HTMLDivElement>(null)
   // Disable parallax on touch devices — per-frame JS transforms are the main
   // scroll-jank source on mobile; the visual effect isn't worth the cost there.
   const isTouchRef = useRef(
@@ -106,67 +106,76 @@ export function CinematicClip({
         : 'inset(100% 0 0 0 round var(--r))'
 
   return (
-    <motion.figure
+    // Outer wrapper owns ONLY the scroll-linked parallax `y`. Keeping it on its
+    // own element means nothing else animates this transform — the previous
+    // jitter came from `whileInView` also writing `y` on the same node, so two
+    // sources fought over one value (worst at slow scroll, where per-frame
+    // deltas are tiny). Separating the writers makes the drift glassy-smooth.
+    <motion.div
       ref={figureRef}
-      className={`relative m-0 ${className}`}
+      className={`relative ${className}`}
       style={effectiveParallax && !shouldReduceMotion ? { y: driftY, willChange: 'transform' } : undefined}
-      initial={shouldReduceMotion ? false : { opacity: 0, ...offset }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
     >
-      <motion.div
-        data-cursor="view"
-        className={`group relative h-full w-full overflow-hidden shadow-[0_1px_2px_rgba(40,35,28,0.06),0_18px_40px_-24px_rgba(40,35,28,0.5)] ring-1 ring-ink/5 ${
-          rounded ? 'rounded-2xl' : ''
-        }`}
-        style={{ ['--r' as string]: rounded ? '1rem' : '0px' }}
-        initial={
-          shouldReduceMotion || !reveal
-            ? false
-            : { clipPath: clipClosed, scale: 1.08 }
-        }
-        whileInView={
-          reveal
-            ? { clipPath: 'inset(0 0 0 0 round var(--r))', scale: 1 }
-            : undefined
-        }
+      <motion.figure
+        className="relative m-0 h-full w-full"
+        initial={shouldReduceMotion ? false : { opacity: 0, ...offset }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
         viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-        whileHover={
-          shouldReduceMotion ? {} : { scale: 1.025, rotate: -0.4, y: -6 }
-        }
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       >
-        <video
-          ref={videoRef}
-          src={cldVideo(src, { width: 1280 })}
-          poster={poster ?? cldPoster(src, { width: 1280 })}
-          muted
-          loop
-          playsInline
-          preload="none"
-          className={`absolute inset-0 h-full w-full scale-105 object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-100 ${
+        <motion.div
+          data-cursor="view"
+          className={`group relative h-full w-full overflow-hidden shadow-[0_1px_2px_rgba(40,35,28,0.06),0_18px_40px_-24px_rgba(40,35,28,0.5)] ring-1 ring-ink/5 ${
             rounded ? 'rounded-2xl' : ''
           }`}
-        />
-        <div
-          className={`absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent ${
-            rounded ? 'rounded-2xl' : ''
-          }`}
-        />
+          style={{ ['--r' as string]: rounded ? '1rem' : '0px' }}
+          initial={
+            shouldReduceMotion || !reveal
+              ? false
+              : { clipPath: clipClosed, scale: 1.08 }
+          }
+          whileInView={
+            reveal
+              ? { clipPath: 'inset(0 0 0 0 round var(--r))', scale: 1 }
+              : undefined
+          }
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+          whileHover={
+            shouldReduceMotion ? {} : { scale: 1.025, rotate: -0.4, y: -6 }
+          }
+        >
+          <video
+            ref={videoRef}
+            src={cldVideo(src, { width: 1280 })}
+            poster={poster ?? cldPoster(src, { width: 1280 })}
+            muted
+            loop
+            playsInline
+            preload="none"
+            className={`absolute inset-0 h-full w-full scale-105 object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-100 ${
+              rounded ? 'rounded-2xl' : ''
+            }`}
+          />
+          <div
+            className={`absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent ${
+              rounded ? 'rounded-2xl' : ''
+            }`}
+          />
 
-        {caption && !captionBelow && (
-          <figcaption className="field-note absolute bottom-4 left-4 translate-y-1 text-parchment/0 transition-all duration-500 group-hover:translate-y-0 group-hover:text-parchment/90">
+          {caption && !captionBelow && (
+            <figcaption className="field-note absolute bottom-4 left-4 translate-y-1 text-parchment/0 transition-all duration-500 group-hover:translate-y-0 group-hover:text-parchment/90">
+              {caption}
+            </figcaption>
+          )}
+        </motion.div>
+
+        {caption && captionBelow && (
+          <figcaption className="field-note mt-3 text-ink-faint">
             {caption}
           </figcaption>
         )}
-      </motion.div>
-
-      {caption && captionBelow && (
-        <figcaption className="field-note mt-3 text-ink-faint">
-          {caption}
-        </figcaption>
-      )}
-    </motion.figure>
+      </motion.figure>
+    </motion.div>
   )
 }

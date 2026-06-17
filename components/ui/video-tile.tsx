@@ -83,8 +83,8 @@ export function VideoTile({
       <motion.button
         onClick={handleClick}
         data-cursor="view"
-        className="group relative w-full overflow-hidden rounded-xl text-left ring-1 ring-ink/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-moss-500"
-        style={{ aspectRatio: '16/9' }}
+        className="group relative w-full overflow-hidden rounded-xl text-left ring-1 ring-ink/5 transform-gpu focus:outline-none focus-visible:ring-2 focus-visible:ring-moss-500"
+        style={{ aspectRatio: '16/9', backfaceVisibility: 'hidden' }}
         initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-40px' }}
@@ -100,7 +100,7 @@ export function VideoTile({
             loop
             playsInline
             autoPlay
-            className="absolute inset-0 h-full w-full rounded-xl object-cover"
+            className="absolute inset-0 h-full w-full rounded-xl object-cover transform-gpu [backface-visibility:hidden]"
           />
         ) : thumbnail ? (
           /* eslint-disable-next-line @next/next/no-img-element */
