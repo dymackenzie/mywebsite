@@ -322,8 +322,9 @@ export default function Home() {
         </section>
 
         <Words>
-          The best days start before the world is awake, when the trail is yours
-          alone and the light is still deciding what to become.
+          "That is perhaps the most solid advice I have, by the way &mdash; 
+          show the inside of your head in public, so people can 
+          see if they would like to live in there."
         </Words>
 
         <section className="relative overflow-visible">
@@ -366,9 +367,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-
-      {/* ── Sunset closer — pinned, caption swells ──────────────────── */}
-      <SunsetCloser />
 
       {/* ── Experience index ────────────────────────────────────────── */}
       <section className="relative mx-auto mt-28 max-w-screen-md overflow-visible px-6">
@@ -418,23 +416,5 @@ export default function Home() {
         </div>
       </section>
     </>
-  )
-}
-
-/** Closing caption — video removed, just the text. */
-function SunsetCloser() {
-  const reduce = useReducedMotion()
-  return (
-    <section className="mx-auto mt-16 max-w-screen-md px-6 pb-4">
-      <motion.p
-        initial={reduce ? false : { opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.9, ease: EASE }}
-        className="text-center font-serif text-xl italic text-ink-faint md:text-2xl"
-      >
-        &mdash; and the day folds into gold.
-      </motion.p>
-    </section>
   )
 }
