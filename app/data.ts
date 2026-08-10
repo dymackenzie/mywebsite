@@ -122,7 +122,7 @@ export const VIDEOS: Video[] = [
     date: '2026-03-27',
     id: 'video10',
     preview: '',
-    poster: 'posters/hiring.png',
+    poster: '/posters/hiring.png',
   },
   {
     title: 'cmdf 2026',
@@ -168,7 +168,7 @@ export const VIDEOS: Video[] = [
     date: '2025-10-22',
     id: 'video5',
     preview: '',
-    poster: 'posters/pizza.png',
+    poster: '/posters/pizza.png',
   },
   {
     title: 'in another life, my mother...',

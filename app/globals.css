@@ -60,25 +60,31 @@
 
   html {
     scroll-behavior: smooth;
+    background-color: var(--color-parchment);
     /* Guard against transient horizontal scroll from slide-in animations and
        wide media. `clip` stops sideways scrolling without creating a scroll
-       container (so smooth scrolling / sticky still work). */
+       container, so sticky and smooth scrolling still work. */
     overflow-x: clip;
   }
 
   body {
-    background-color: var(--color-parchment);
     color: var(--color-ink);
     font-family: var(--font-sans);
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Soft warm light + layered paper texture so the parchment reads as a real
-       surface. Glows stay fixed; the grain and fiber layers tile and repeat.
-       Layer order (top to bottom):
-         1–2: ambient color glows
-         3:   coarse film grain (visible speckle)
-         4:   fine high-frequency grain (tooth)
-         5:   soft mottled paper blotching */
+  }
+
+  /* Warm light and paper grain, so the parchment reads as a real surface.
+     This sits on its own fixed layer rather than on `body` with
+     background-attachment: fixed — that attachment drops the whole page onto
+     the main-thread scrolling path and was the bulk of the scroll stutter. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -20;
+    pointer-events: none;
     background-image:
       radial-gradient(
         1100px 620px at 50% -8%,
@@ -91,12 +97,8 @@
         transparent 55%
       ),
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E"),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E"),
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)' opacity='0.22'/%3E%3C/svg%3E");
-    /* Color glows stay fixed; grain/texture tiles scroll with content to avoid
-       full-viewport repaints on every frame (big mobile scroll win). */
-    background-attachment: fixed, fixed, scroll, scroll, scroll;
-    background-repeat: no-repeat, no-repeat, repeat, repeat, repeat;
+    background-repeat: no-repeat, no-repeat, repeat, repeat;
   }
 
   h1,
@@ -107,6 +109,10 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
     *,
     ::before,
     ::after {
@@ -132,15 +138,6 @@
   /* The whole document is set in warm ink; links inherit unless told otherwise. */
   a {
     color: inherit;
-  }
-
-  /* Prevent horizontal scroll site-wide (e.g. full-bleed -mx-4 hero sections,
-     transform-based components, and wide media grids). Safe here because no
-     element relies on position: sticky relative to the viewport. */
-  html,
-  body {
-    overflow-x: hidden;
-    max-width: 100%;
   }
 
   /* Freeze the page beneath the loading splash. */

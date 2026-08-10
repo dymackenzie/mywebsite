@@ -1,7 +1,9 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import Image from 'next/image'
+import { useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
+import { LazyVideo } from '@/components/ui/lazy-video'
 import { VideoLightbox } from '@/components/ui/video-lightbox'
 import { cldVideo } from '@/lib/cloudinary'
 
@@ -9,30 +11,29 @@ type VideoTileProps = {
   title: string
   description?: string
   date?: string
-  youtube: string         // full URL (or empty for instagram)
-  preview?: string        // Cloudinary muted loop URL
-  poster?: string         // still frame fallback
-  isInstagram?: boolean   // opens external link instead of lightbox
+  /** Full YouTube URL, or empty for an Instagram entry. */
+  youtube: string
+  /** Cloudinary muted loop. Falls back to the still below when absent. */
+  preview?: string
+  poster?: string
+  isInstagram?: boolean
   instagramUrl?: string
 }
 
-function extractYouTubeThumbnail(url: string): string {
+function youtubeThumbnail(url: string) {
   const match = url.match(/(?:youtu\.be\/|watch\?v=|embed\/)([A-Za-z0-9_-]{11})/)
-  if (match) {
-    return `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg`
-  }
-  return ''
+  return match ? `https://i.ytimg.com/vi/${match[1]}/maxresdefault.jpg` : ''
 }
 
-function formatDate(dateStr?: string) {
-  if (!dateStr) return ''
+function formatDate(date?: string) {
+  if (!date) return ''
   try {
-    return new Date(dateStr).toLocaleDateString('en-US', {
+    return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
     })
   } catch {
-    return dateStr
+    return date
   }
 }
 
@@ -46,31 +47,12 @@ export function VideoTile({
   isInstagram = false,
   instagramUrl,
 }: VideoTileProps) {
-  const shouldReduceMotion = useReducedMotion()
+  const reduce = useReducedMotion()
   const [lightboxOpen, setLightboxOpen] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Pause video when offscreen for performance
-  useEffect(() => {
-    const el = videoRef.current
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.play().catch(() => {})
-        } else {
-          el.pause()
-        }
-      },
-      { threshold: 0.2 }
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
+  const still = poster || (youtube ? youtubeThumbnail(youtube) : '')
 
-  const thumbnail = poster || (youtube ? extractYouTubeThumbnail(youtube) : '')
-
-  const handleClick = () => {
+  const open = () => {
     if (isInstagram && instagramUrl) {
       window.open(instagramUrl, '_blank', 'noopener,noreferrer')
     } else if (youtube) {
@@ -81,59 +63,60 @@ export function VideoTile({
   return (
     <>
       <motion.button
-        onClick={handleClick}
+        onClick={open}
         data-cursor="view"
-        className="group relative w-full overflow-hidden rounded-xl text-left ring-1 ring-ink/5 transform-gpu focus:outline-none focus-visible:ring-2 focus-visible:ring-moss-500"
-        style={{ aspectRatio: '16/9', backfaceVisibility: 'hidden' }}
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+        className="group relative w-full overflow-hidden rounded-xl text-left ring-1 ring-ink/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-moss-500"
+        style={{ aspectRatio: '16/9' }}
+        initial={reduce ? false : { opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-40px' }}
         transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-        whileHover={shouldReduceMotion ? {} : { scale: 1.03, rotate: 0.3, zIndex: 10 }}
+        whileHover={reduce ? {} : { scale: 1.03, rotate: 0.3, zIndex: 10 }}
       >
         {preview ? (
-          <video
-            ref={videoRef}
+          <LazyVideo
             src={cldVideo(preview, { width: 800 })}
-            poster={thumbnail || undefined}
-            muted
-            loop
-            playsInline
-            autoPlay
-            className="absolute inset-0 h-full w-full rounded-xl object-cover transform-gpu [backface-visibility:hidden]"
-          />
-        ) : thumbnail ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            src={thumbnail}
-            alt={title}
-            loading="lazy"
-            decoding="async"
+            poster={still}
+            stillOnMobile
             className="absolute inset-0 h-full w-full rounded-xl object-cover"
+          />
+        ) : still ? (
+          <Image
+            src={still}
+            alt={title}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="rounded-xl object-cover"
           />
         ) : (
           <div className="absolute inset-0 rounded-xl bg-stone-300" />
         )}
 
-        <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-ink/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+        <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-ink/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        <div className="absolute inset-x-0 bottom-0 translate-y-2 p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
           {date && (
             <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-parchment/60">
               {formatDate(date)}
             </p>
           )}
-          <p className="mt-1.5 font-serif text-sm font-medium leading-snug text-parchment line-clamp-2">
+          <p className="mt-1.5 line-clamp-2 font-serif text-sm font-medium leading-snug text-parchment">
             {title}
           </p>
           {description && (
-            <p className="mt-0.5 text-xs text-parchment/70 line-clamp-1">{description}</p>
+            <p className="mt-0.5 line-clamp-1 text-xs text-parchment/70">
+              {description}
+            </p>
           )}
         </div>
 
         {!isInstagram && (
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-parchment/20 backdrop-blur-sm">
-              <svg className="h-5 w-5 text-parchment ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+              <svg
+                className="ml-0.5 h-5 w-5 text-parchment"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>
@@ -142,7 +125,10 @@ export function VideoTile({
       </motion.button>
 
       {lightboxOpen && youtube && (
-        <VideoLightbox youtubeId={youtube} onClose={() => setLightboxOpen(false)} />
+        <VideoLightbox
+          youtubeId={youtube}
+          onClose={() => setLightboxOpen(false)}
+        />
       )}
     </>
   )

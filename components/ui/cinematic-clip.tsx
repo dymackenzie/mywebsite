@@ -1,33 +1,25 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from 'motion/react'
-import { cldVideo, cldPoster } from '@/lib/cloudinary'
+import { useRef } from 'react'
+import { motion, useInView, useReducedMotion } from 'motion/react'
+import { LazyVideo } from '@/components/ui/lazy-video'
+import { Parallax } from '@/components/ui/parallax'
+import { cldPoster, cldVideo } from '@/lib/cloudinary'
+
+const EASE = [0.22, 1, 0.36, 1] as const
 
 type CinematicClipProps = {
   src: string
   poster?: string
   caption?: string
-  /** Tailwind classes controlling size / aspect / placement of the tile. */
+  /** Sizing / aspect / grid placement for the tile. */
   className?: string
-  /** Slide-in direction as the clip scrolls into view. */
   from?: 'left' | 'right' | 'up'
-  /** Rounded corners (default true). Hero uses square edges. */
   rounded?: boolean
-  /** Render caption beneath the clip instead of on hover. */
   captionBelow?: boolean
-  /**
-   * Scroll parallax depth. Positive drifts the tile up as the page scrolls,
-   * negative drifts it down; pair opposite signs on adjacent tiles for depth.
-   * 0 disables. Expressed in px of total travel across the viewport.
-   */
+  /** Scroll drift in px; opposite signs on adjacent tiles reads as depth. */
   parallax?: number
-  /** Wipe the clip open with a clip-path reveal as it enters. */
+  /** Wipe the tile open as it enters. */
   reveal?: boolean
 }
 
@@ -42,125 +34,59 @@ export function CinematicClip({
   parallax = 0,
   reveal = false,
 }: CinematicClipProps) {
-  const shouldReduceMotion = useReducedMotion()
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const figureRef = useRef<HTMLDivElement>(null)
-  // Disable parallax on touch devices — per-frame JS transforms are the main
-  // scroll-jank source on mobile; the visual effect isn't worth the cost there.
-  const isTouchRef = useRef(
-    typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches
-  )
-  const effectiveParallax = isTouchRef.current ? 0 : parallax
+  const reduce = useReducedMotion()
+  const radius = rounded ? 'rounded-2xl' : ''
 
-  // Two-tier loading strategy for smooth, non-laggy playback:
-  // Tier 1 — start buffering when the clip is ~400px away (no pop-in on arrival).
-  // Tier 2 — play when in view, pause when scrolled away (frees GPU decode cycles).
-  useEffect(() => {
-    const el = videoRef.current
-    if (!el) return
+  // One observer feeds both the slide-in and the wipe. Both `animate` props
+  // below must name an explicit target in each direction: left undefined,
+  // Motion defers to the parent's state and the tile can sit at opacity 0
+  // forever, which depends on whether Parallax wrapped it in a motion element.
+  const ref = useRef<HTMLElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-60px' })
+  const entered = reduce || inView
 
-    const preloadObs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && el.preload === 'none') {
-          el.preload = 'auto'
-        }
-      },
-      { rootMargin: '400px 0px', threshold: 0 }
-    )
-
-    const playObs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.play().catch(() => {})
-        } else {
-          el.pause()
-        }
-      },
-      { threshold: 0.1 }
-    )
-
-    preloadObs.observe(el)
-    playObs.observe(el)
-    return () => {
-      preloadObs.disconnect()
-      playObs.disconnect()
-    }
-  }, [])
-
-  // Scroll-linked parallax drift across the whole time the tile is in view.
-  const { scrollYProgress } = useScroll({
-    target: figureRef,
-    offset: ['start end', 'end start'],
-  })
-  const driftY = useTransform(scrollYProgress, [0, 1], [effectiveParallax, -effectiveParallax])
-
-  const offset =
+  const hidden =
     from === 'left' ? { x: -48 } : from === 'right' ? { x: 48 } : { y: 36 }
+  const shown = { opacity: 1, x: 0, y: 0 }
 
-  // Direction the clip-path wipe opens from, matching the slide-in.
-  const clipClosed =
-    from === 'left'
-      ? 'inset(0 100% 0 0 round var(--r))'
-      : from === 'right'
-        ? 'inset(0 0 0 100% round var(--r))'
-        : 'inset(100% 0 0 0 round var(--r))'
+  const closed = {
+    clipPath:
+      from === 'left'
+        ? 'inset(0 100% 0 0 round var(--r))'
+        : from === 'right'
+          ? 'inset(0 0 0 100% round var(--r))'
+          : 'inset(100% 0 0 0 round var(--r))',
+    scale: 1.08,
+  }
+  const open = { clipPath: 'inset(0 0 0 0 round var(--r))', scale: 1 }
+  const wipes = reveal && !reduce
 
   return (
-    // Outer wrapper owns ONLY the scroll-linked parallax `y`. Keeping it on its
-    // own element means nothing else animates this transform — the previous
-    // jitter came from `whileInView` also writing `y` on the same node, so two
-    // sources fought over one value (worst at slow scroll, where per-frame
-    // deltas are tiny). Separating the writers makes the drift glassy-smooth.
-    <motion.div
-      ref={figureRef}
-      className={`relative ${className}`}
-      style={effectiveParallax && !shouldReduceMotion ? { y: driftY, willChange: 'transform' } : undefined}
-    >
+    <Parallax distance={parallax} className={`relative ${className}`}>
       <motion.figure
+        ref={ref}
         className="relative m-0 h-full w-full"
-        initial={shouldReduceMotion ? false : { opacity: 0, ...offset }}
-        whileInView={{ opacity: 1, x: 0, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        initial={reduce ? false : { opacity: 0, ...hidden }}
+        animate={entered ? shown : { opacity: 0, ...hidden }}
+        transition={{ duration: 0.9, ease: EASE }}
       >
         <motion.div
           data-cursor="view"
-          className={`group relative h-full w-full overflow-hidden shadow-[0_1px_2px_rgba(40,35,28,0.06),0_18px_40px_-24px_rgba(40,35,28,0.5)] ring-1 ring-ink/5 ${
-            rounded ? 'rounded-2xl' : ''
-          }`}
+          className={`group relative h-full w-full overflow-hidden shadow-[0_1px_2px_rgba(40,35,28,0.06),0_18px_40px_-24px_rgba(40,35,28,0.5)] ring-1 ring-ink/5 ${radius}`}
           style={{ ['--r' as string]: rounded ? '1rem' : '0px' }}
-          initial={
-            shouldReduceMotion || !reveal
-              ? false
-              : { clipPath: clipClosed, scale: 1.08 }
-          }
-          whileInView={
-            reveal
-              ? { clipPath: 'inset(0 0 0 0 round var(--r))', scale: 1 }
-              : undefined
-          }
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-          whileHover={
-            shouldReduceMotion ? {} : { scale: 1.025, rotate: -0.4, y: -6 }
-          }
+          initial={wipes ? closed : false}
+          animate={wipes ? (inView ? open : closed) : undefined}
+          transition={{ duration: 1.1, ease: EASE }}
+          whileHover={reduce ? {} : { scale: 1.025, rotate: -0.4, y: -6 }}
         >
-          <video
-            ref={videoRef}
+          <LazyVideo
             src={cldVideo(src, { width: 1280 })}
-            poster={poster ?? cldPoster(src, { width: 1280 })}
-            muted
-            loop
-            playsInline
-            preload="none"
-            className={`absolute inset-0 h-full w-full scale-105 object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-100 ${
-              rounded ? 'rounded-2xl' : ''
-            }`}
+            poster={poster ?? cldPoster(src, { width: 900 })}
+            stillOnMobile
+            className={`absolute inset-0 h-full w-full scale-105 object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-100 ${radius}`}
           />
           <div
-            className={`absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent ${
-              rounded ? 'rounded-2xl' : ''
-            }`}
+            className={`absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent ${radius}`}
           />
 
           {caption && !captionBelow && (
@@ -176,6 +102,6 @@ export function CinematicClip({
           </figcaption>
         )}
       </motion.figure>
-    </motion.div>
+    </Parallax>
   )
 }
