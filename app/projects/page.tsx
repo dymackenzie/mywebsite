@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion } from 'motion/react'
 import { PROJECTS } from '@/app/data'
 import { PageHeader } from '@/components/ui/page-header'
+import { LazyVideo } from '@/components/ui/lazy-video'
 import { cldVideo, cldPoster } from '@/lib/cloudinary'
 import {
   VARIANTS_CONTAINER,
@@ -40,13 +41,9 @@ export default function ProjectsPage() {
                 className="relative overflow-hidden rounded-2xl shadow-[0_1px_2px_rgba(40,35,28,0.06),0_20px_44px_-26px_rgba(40,35,28,0.5)] ring-1 ring-ink/5"
                 style={{ aspectRatio: '16/9' }}
               >
-                <video
+                <LazyVideo
                   src={cldVideo(project.video, { width: 800 })}
                   poster={cldPoster(project.video, { width: 800 })}
-                  muted
-                  loop
-                  playsInline
-                  autoPlay
                   className="absolute inset-0 h-full w-full scale-105 object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-ink/15" />

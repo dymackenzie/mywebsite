@@ -5,17 +5,18 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
-/** A brief on-brand splash that holds the first paint until the page's media
- *  (notably the hero video) has had a moment to buffer, then dissolves. A hard
- *  cap guarantees it never overstays. */
+const MIN = 200 // avoid a jarring flash on fast loads
+const MAX = 900 // never hold the page hostage to a slow asset
+
+/** A brief on-brand splash over the first paint, then it dissolves. It waits on
+ *  the document, not on `load` — that fires only once every video has buffered,
+ *  which meant sitting on a blank screen for the sake of a splash. */
 export function Loader() {
   const reduce = useReducedMotion()
   const [done, setDone] = useState(false)
 
   useEffect(() => {
     const start = Date.now()
-    const MIN = 350 // avoid a jarring flash on fast loads
-    const MAX = 2200 // never hang, even if `load` never fires
     let minTimer: ReturnType<typeof setTimeout>
 
     const finish = () => {
@@ -23,13 +24,13 @@ export function Loader() {
       minTimer = setTimeout(() => setDone(true), Math.max(0, MIN - elapsed))
     }
 
-    if (document.readyState === 'complete') finish()
-    else window.addEventListener('load', finish, { once: true })
+    if (document.readyState !== 'loading') finish()
+    else document.addEventListener('DOMContentLoaded', finish, { once: true })
 
     const cap = setTimeout(() => setDone(true), MAX)
 
     return () => {
-      window.removeEventListener('load', finish)
+      document.removeEventListener('DOMContentLoaded', finish)
       clearTimeout(minTimer)
       clearTimeout(cap)
     }
