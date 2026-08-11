@@ -107,6 +107,15 @@ export const PROJECTS: Project[] = [
 
 export const VIDEOS: Video[] = [
   {
+    title: 'Jonathan & Michelle',
+    description: 'my first paid wedding gig',
+    youtube: 'https://youtu.be/YXflQSEUUik',
+    date: '2026-07-10',
+    id: 'video12',
+    preview: '',
+    poster: '',
+  },
+  {
     title: 'sponsorship video for Zocker',
     description: 'an edit for my brother sponsored by Zocker',
     youtube: 'https://youtu.be/oDpwF3i9SDU',
