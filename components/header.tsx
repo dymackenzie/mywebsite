@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 
 const NAV_LINKS = [
-  { href: '/blog', label: 'Writings', primary: true },
+  { href: '/blog', label: 'Writings' },
   { href: '/gallery', label: 'Photographs' },
   { href: '/videos', label: 'Videos' },
   { href: '/projects', label: 'Projects' },
@@ -29,8 +29,10 @@ export function Header() {
     return () => document.removeEventListener('keydown', onKey)
   }, [])
 
+  // The bar is solid rather than a frosted translucent one: `backdrop-filter`
+  // makes the browser re-composite the strip on every scrolled frame.
   return (
-    <header className="sticky top-0 z-40 border-b border-stone-200/60 bg-parchment/70 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-stone-200/60 bg-parchment">
       <div className="mx-auto max-w-screen-xl px-4 py-3 sm:px-6 sm:py-4">
         <div className="flex items-center justify-between gap-3">
           <Link href="/" className="group flex items-center gap-3 leading-tight">
@@ -55,7 +57,7 @@ export function Header() {
 
           <nav className="hidden sm:block">
             <ul className="flex items-center gap-7">
-              {NAV_LINKS.map(({ href, label, primary }, i) => {
+              {NAV_LINKS.map(({ href, label }, i) => {
                 const isActive = pathname === href
                 return (
                   <li key={href}>
@@ -72,13 +74,9 @@ export function Header() {
                       </span>
                       <span
                         className={`link-underline text-sm transition-colors duration-200 ${
-                          primary
-                            ? isActive
-                              ? 'font-medium text-moss-700'
-                              : 'font-medium text-moss-600 group-hover:text-moss-700'
-                            : isActive
-                              ? 'font-medium text-ink'
-                              : 'text-ink-muted group-hover:text-ink'
+                          isActive
+                            ? 'font-medium text-ink'
+                            : 'text-ink-muted group-hover:text-ink'
                         }`}
                       >
                         {label}
@@ -135,7 +133,7 @@ export function Header() {
             className="overflow-hidden border-t border-stone-200/60 sm:hidden"
           >
             <ul className="mx-auto max-w-screen-xl px-4 py-2">
-              {NAV_LINKS.map(({ href, label, primary }, i) => {
+              {NAV_LINKS.map(({ href, label }, i) => {
                 const isActive = pathname === href
                 return (
                   <li key={href}>
@@ -153,13 +151,7 @@ export function Header() {
                       </span>
                       <span
                         className={`text-base transition-colors duration-200 ${
-                          primary
-                            ? isActive
-                              ? 'font-medium text-moss-700'
-                              : 'font-medium text-moss-600'
-                            : isActive
-                              ? 'font-medium text-ink'
-                              : 'text-ink-muted'
+                          isActive ? 'font-medium text-ink' : 'text-ink-muted'
                         }`}
                       >
                         {label}

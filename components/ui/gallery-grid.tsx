@@ -104,9 +104,12 @@ export function GalleryGrid({ images }: { images: GalleryImage[] }) {
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
         {columns.map((col, ci) => (
           <div key={ci} className="flex flex-col gap-2 sm:gap-3">
-            {col.map((img) => {
+            {col.map((img, ri) => {
               const globalIdx = ordered.indexOf(img)
               const aspectRatio = img.width / img.height
+              // Top frame of each column is above the fold; lazy-loading it is
+              // what made the grid's LCP wait on the observer.
+              const isFirstRow = ri === 0
               return (
                 <motion.button
                   key={img.src}
@@ -130,7 +133,8 @@ export function GalleryGrid({ images }: { images: GalleryImage[] }) {
                     fill
                     className="object-cover transition-all duration-500 group-hover:brightness-95"
                     sizes="(max-width: 640px) 50vw, 33vw"
-                    loading="lazy"
+                    priority={isFirstRow}
+                    loading={isFirstRow ? 'eager' : 'lazy'}
                   />
                 </motion.button>
               )

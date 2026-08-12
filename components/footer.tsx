@@ -10,10 +10,13 @@ export function Footer() {
           {/* Left: invitation + email */}
           <div className="md:col-span-7">
             <p className="field-note mb-5">Get in touch</p>
+            {/* Sized against the viewport rather than in fixed steps — the
+                address is one long unbreakable word and ran off the edge of a
+                phone at a fixed text-3xl. */}
             <a
               href={`mailto:${EMAIL}`}
               data-cursor
-              className="link-underline font-serif text-3xl leading-tight text-ink transition-colors hover:text-moss-700 sm:text-4xl md:text-5xl"
+              className="link-underline inline-block max-w-full font-serif text-[clamp(1.25rem,6vw,3rem)] leading-tight text-ink transition-colors hover:text-moss-700"
             >
               {EMAIL}
             </a>

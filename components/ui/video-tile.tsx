@@ -18,11 +18,30 @@ type VideoTileProps = {
   poster?: string
   isInstagram?: boolean
   instagramUrl?: string
+  /** Set on the first tile so the above-the-fold still isn't lazy-loaded. */
+  priority?: boolean
 }
 
-function youtubeThumbnail(url: string) {
+function youtubeId(url: string) {
   const match = url.match(/(?:youtu\.be\/|watch\?v=|embed\/)([A-Za-z0-9_-]{11})/)
-  return match ? `https://i.ytimg.com/vi/${match[1]}/maxresdefault.jpg` : ''
+  return match ? match[1] : ''
+}
+
+/**
+ * Thumbnail quality ladder, sharpest first. `maxresdefault` is the 16:9 still
+ * YouTube only generates for videos uploaded above 720p — it 404s otherwise,
+ * which left a broken tile. `sddefault` (640x480) and `hqdefault` (480x360)
+ * always exist; they're 4:3 with letterbox bars that `object-cover` crops back
+ * off, so the fallbacks still frame correctly. Each `onError` steps down one
+ * rung, so a missing `maxresdefault` lands on `sddefault` rather than dropping
+ * straight to the softest still.
+ */
+const THUMBNAIL_QUALITIES = ['maxresdefault', 'sddefault', 'hqdefault'] as const
+
+function youtubeThumbnail(id: string, step: number) {
+  const quality =
+    THUMBNAIL_QUALITIES[Math.min(step, THUMBNAIL_QUALITIES.length - 1)]
+  return `https://i.ytimg.com/vi/${id}/${quality}.jpg`
 }
 
 function formatDate(date?: string) {
@@ -46,11 +65,14 @@ export function VideoTile({
   poster,
   isInstagram = false,
   instagramUrl,
+  priority = false,
 }: VideoTileProps) {
   const reduce = useReducedMotion()
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [thumbStep, setThumbStep] = useState(0)
 
-  const still = poster || (youtube ? youtubeThumbnail(youtube) : '')
+  const id = youtube ? youtubeId(youtube) : ''
+  const still = poster || (id ? youtubeThumbnail(id, thumbStep) : '')
 
   const open = () => {
     if (isInstagram && instagramUrl) {
@@ -86,6 +108,12 @@ export function VideoTile({
             alt={title}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            priority={priority}
+            onError={() =>
+              setThumbStep((step) =>
+                Math.min(step + 1, THUMBNAIL_QUALITIES.length - 1)
+              )
+            }
             className="rounded-xl object-cover"
           />
         ) : (

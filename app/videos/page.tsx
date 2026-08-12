@@ -16,11 +16,12 @@ export default function VideosPage() {
       />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {VIDEOS.map((video) => {
+        {VIDEOS.map((video, index) => {
           const isInstagram = !video.youtube.includes('youtu')
           return (
             <VideoTile
               key={video.id}
+              priority={index === 0}
               title={video.title}
               description={video.description}
               date={video.date}

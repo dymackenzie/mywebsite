@@ -113,7 +113,9 @@ export const VIDEOS: Video[] = [
     date: '2026-07-10',
     id: 'video12',
     preview: '',
-    poster: '',
+    // Uploaded under 720p, so YouTube never generated a `maxresdefault` and the
+    // tile 404'd before falling back. `sddefault` is the sharpest one it has.
+    poster: 'https://i.ytimg.com/vi/YXflQSEUUik/sddefault.jpg',
   },
   {
     title: 'sponsorship video for Zocker',
