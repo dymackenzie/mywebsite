@@ -20,7 +20,7 @@ export default function GalleryPage() {
         index="02"
         eyebrow="Gallery"
         title="Photographs"
-        lead="Capturing life through my camera — Sony a6700 with a 18-50 mm f/2.8 lens."
+        lead="Capturing life through my camera."
         meta={`${String(images.length).padStart(2, '0')} frames`}
       />
 

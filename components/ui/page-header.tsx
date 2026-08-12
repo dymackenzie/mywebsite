@@ -18,8 +18,8 @@ type PageHeaderProps = {
 
 /**
  * The shared editorial masthead for inner pages — mono eyebrow + index, an
- * oversized serif title, optional lead/meta, and the recurring ticked rule.
- * Keeps every route in the same "field notes" voice as the home page.
+ * oversized serif title, and an optional lead/meta. Keeps every route in the
+ * same "field notes" voice as the home page.
  */
 export function PageHeader({
   index,
@@ -30,7 +30,7 @@ export function PageHeader({
   action,
 }: PageHeaderProps) {
   return (
-    <header className="mb-12">
+    <header className="mb-16">
       <div className="flex items-center justify-between gap-4">
         <FieldLabel index={index}>{eyebrow}</FieldLabel>
         {action}
@@ -46,8 +46,6 @@ export function PageHeader({
       </div>
 
       {lead && <p className="mt-4 max-w-xl text-ink-muted">{lead}</p>}
-
-      <div className="field-rule mt-8" />
     </header>
   )
 }

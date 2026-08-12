@@ -18,7 +18,7 @@ export default function ProjectsPage() {
         index="04"
         eyebrow="Selected work"
         title="Projects"
-        lead="Things I've built — for the love of the game."
+        lead="Things I've built for the love of the game."
         meta={`${String(PROJECTS.length).padStart(2, '0')} builds`}
       />
 

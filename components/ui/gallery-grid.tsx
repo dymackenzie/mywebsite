@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
+import { FadeImage } from '@/components/ui/fade-image'
 
 export type GalleryImage = {
   src: string
@@ -95,52 +96,46 @@ export function GalleryGrid({ images }: { images: GalleryImage[] }) {
     setOrdered(shuffle(images))
   }, [images])
 
-  // Split into 3 columns for masonry
-  const columns: GalleryImage[][] = [[], [], []]
-  ordered.forEach((img, i) => columns[i % 3].push(img))
-
   return (
     <>
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
-        {columns.map((col, ci) => (
-          <div key={ci} className="flex flex-col gap-2 sm:gap-3">
-            {col.map((img, ri) => {
-              const globalIdx = ordered.indexOf(img)
-              const aspectRatio = img.width / img.height
-              // Top frame of each column is above the fold; lazy-loading it is
-              // what made the grid's LCP wait on the observer.
-              const isFirstRow = ri === 0
-              return (
-                <motion.button
-                  key={img.src}
-                  onClick={() => setLightboxIdx(globalIdx)}
-                  data-cursor="view"
-                  className="group relative w-full overflow-hidden rounded-lg ring-1 ring-ink/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-moss-500"
-                  style={{ aspectRatio: `${aspectRatio}` }}
-                  initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
-                  whileHover={
-                    shouldReduceMotion
-                      ? {}
-                      : { scale: 1.025, rotate: 0.4, zIndex: 10 }
-                  }
-                >
-                  <Image
-                    src={img.src}
-                    alt=""
-                    fill
-                    className="object-cover transition-all duration-500 group-hover:brightness-95"
-                    sizes="(max-width: 640px) 50vw, 33vw"
-                    priority={isFirstRow}
-                    loading={isFirstRow ? 'eager' : 'lazy'}
-                  />
-                </motion.button>
-              )
-            })}
-          </div>
-        ))}
+      {/* CSS multi-column, not per-column arrays: every tile stays a directly
+          keyed child of one parent, so the post-hydration shuffle reorders the
+          nodes instead of unmounting them and resetting their entrance. */}
+      <div className="columns-2 gap-2 sm:columns-3 sm:gap-3">
+        {ordered.map((img, idx) => {
+          const aspectRatio = img.width / img.height
+          // The top of each column is above the fold; lazy-loading it is what
+          // made the grid's LCP wait on the observer.
+          const isFirstRow = idx < 3
+          return (
+            <motion.button
+              key={img.src}
+              onClick={() => setLightboxIdx(idx)}
+              data-cursor="view"
+              className="group relative mb-2 w-full break-inside-avoid overflow-hidden rounded-lg bg-stone-200/40 ring-1 ring-ink/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-moss-500 sm:mb-3"
+              style={{ aspectRatio: `${aspectRatio}` }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '0px 0px -60px 0px' }}
+              transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
+              whileHover={
+                shouldReduceMotion
+                  ? {}
+                  : { scale: 1.025, rotate: 0.4, zIndex: 10 }
+              }
+            >
+              <FadeImage
+                src={img.src}
+                alt=""
+                fill
+                className="object-cover group-hover:brightness-95"
+                sizes="(max-width: 640px) 50vw, 33vw"
+                priority={isFirstRow}
+                loading={isFirstRow ? 'eager' : 'lazy'}
+              />
+            </motion.button>
+          )
+        })}
       </div>
 
       {lightboxIdx !== null && (

@@ -21,7 +21,7 @@ export function BlogIndex({ posts }: { posts: Post[] }) {
         index="01"
         eyebrow="Journal"
         title="Writings"
-        lead="Thoughts worth keeping — on living, making, and the things in between."
+        lead="Thoughts worth keeping."
         meta={`${String(posts.length).padStart(2, '0')} entries`}
         action={<BlogSearch posts={posts} />}
       />
