@@ -110,10 +110,7 @@ export function getSeriesBySlug(slug: string): GallerySeries | undefined {
   return getSeries().find((series) => series.slug === slug)
 }
 
-/** The loose frames plus every series' frames, for the "All frames" grid. */
+/** The loose frames only — series frames live on their own pages. */
 export function getAllFrames(): GalleryImage[] {
-  return [
-    ...readImages(IMAGES_DIR, '/images'),
-    ...getSeries().flatMap((series) => series.images),
-  ]
+  return readImages(IMAGES_DIR, '/images')
 }
