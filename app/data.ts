@@ -221,6 +221,14 @@ export const VIDEOS: Video[] = [
 
 export const WORK_EXPERIENCE: WorkExperience[] = [
   {
+    company: 'The Creative Solution',
+    title: 'Media Director',
+    start: '2026',
+    end: 'Present',
+    link: 'https://www.thecreativesolution.ca/',
+    id: 'work5',
+  },
+  {
     company: 'nwPlus',
     title: 'Software Engineer',
     start: '2026',
