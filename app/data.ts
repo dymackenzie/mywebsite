@@ -41,6 +41,16 @@ type Video = {
 
 export const PROJECTS: Project[] = [
   {
+    name: 'Shelf',
+    description: 'A bookshelf new tab for Chrome.',
+    longDescription:
+      "Shelf is a Chrome extension that turns the new tab page into a shelf of books, one for every link, with each cover dyed from the site's icon. You add a book by dragging a link onto the shelf, and the books can be drawn in 3D or flat in 2D. It's plain JavaScript with no framework or build step.",
+    link: 'https://github.com/dymackenzie/shelf-newtab',
+    video:
+      'https://res.cloudinary.com/dy5qhfyed/video/upload/v1793914740/shelf-demo_rc9cz6.mp4',
+    id: 'project7',
+  },
+  {
     name: 'Terminecraft',
     description:
       'Minecraft in terminal.',
